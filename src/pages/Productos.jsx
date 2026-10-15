@@ -5,11 +5,11 @@ import { SeccionProductos } from '../components/organisms/SeccionProductos';
 export function Productos() {
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <main>
         <SeccionProductos />
       </main>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

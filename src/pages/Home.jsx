@@ -1,12 +1,12 @@
-import { Navbar } from '../components/organisms/Navbar';
+//import { Navbar } from '../components/organisms/Navbar';
 import { HeroBanner } from '../components/organisms/HeroBanner';
-import { Footer } from '../components/organisms/Footer';
+//import { Footer } from '../components/organisms/Footer';
 import { Link } from 'react-router-dom';
 import { SeccionProductos } from '../components/organisms/SeccionProductos';
 export function Home() {
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       
       <main>
         <HeroBanner />
@@ -47,7 +47,7 @@ export function Home() {
           <h2>¿Te atreves?</h2>
         </div>
       </main>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }
