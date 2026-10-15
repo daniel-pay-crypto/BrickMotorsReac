@@ -16,6 +16,8 @@ function App() {
 
       <Route path="/admin" element={<Administracion />} />
       
+      <Route path="/admin" element={<Administracion />} />
+      
       {/* Ruta para capturar errores (Página 404) */}
       <Route path="*" element={<h1 className="text-center mt-5 text-white">404 - Página no encontrada</h1>} />
     </Routes>
