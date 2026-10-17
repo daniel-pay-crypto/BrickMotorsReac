@@ -1,5 +1,5 @@
 import { PanelAdmin } from '../components/organisms/PanelAdmin';
 
-export function Administrador() {
+export function Administracion() {
   return <PanelAdmin />;
 }
