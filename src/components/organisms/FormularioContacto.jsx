@@ -3,7 +3,7 @@ import { Container, Row, Col, Card, Alert } from 'react-bootstrap';
 import Text from '../atoms/Text.jsx';
 import Button from '../atoms/Button.jsx';
 import { FormField } from '../molecules/FormField';
-import { estaVacio, esGmailValido } from '../../utils/validaciones';
+import { estaVacio, esGmailValido } from '../../data/Validaciones.js';
 
 const valoresIniciales = { nombre: '', correo: '', mensaje: '' };
 
