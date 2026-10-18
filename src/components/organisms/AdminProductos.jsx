@@ -3,7 +3,7 @@ import Button from '../atoms/Button.jsx';
 import { FormField } from '../molecules/FormField';
 import { SelectField } from '../molecules/SelectField';
 import { TablaDatos } from '../molecules/TablaDatos';
-import { estaVacio } from '../../utils/validaciones';
+import { estaVacio } from '../../data/Validaciones.js';
 
 const columnas = [
   { clave: 'codigo', titulo: 'Código' },
