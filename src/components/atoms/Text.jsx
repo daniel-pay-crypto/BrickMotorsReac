@@ -5,3 +5,4 @@ function Text({ children, variant = 'p', className }) {
 
 
 export default Text;
+
