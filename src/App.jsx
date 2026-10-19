@@ -4,6 +4,8 @@ import { Home } from './pages/Home';
 import { Productos } from './pages/Productos';
 // import { Nosotros } from './pages/Nosotros';
 import { DetalleBlog } from './pages/DetalleBlog';
+import { Cherno } from './pages/Cherno';
+import { Contacto } from './pages/Contacto';
 
 function App() {
   return (
