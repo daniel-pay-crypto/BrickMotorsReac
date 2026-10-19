@@ -1,0 +1,39 @@
+/* Molécula TarjetaDesarrollador*/
+
+
+.tarjeta-desarrollador {
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--brick-radio);
+  padding: 1.75rem 1.25rem;
+  transition: transform var(--brick-transicion), border-color var(--brick-transicion);
+}
+
+
+
+.tarjeta-desarrollador:hover {
+  transform: translateY(-5px);
+  border-color: var(--brick-amarillo);
+}
+
+
+.tarjeta-desarrollador__nombre {
+  color: var(--brick-blanco);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+
+
+.tarjeta-desarrollador__descripcion {
+  color: #cccccc;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 1rem 0;
+}
+
+.tarjeta-desarrollador__acciones {
+  margin-top: auto;
+}

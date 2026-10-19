@@ -1,0 +1,10 @@
+/* Átomo RoleBadge*/
+.rol-badge {
+  display: inline-block;
+  background: none;
+  color: var(--brick-amarillo);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 0;
+}

@@ -1,0 +1,51 @@
+
+:root {
+  --brick-amarillo: #ffcf00;
+  --brick-rojo: #e3000b;
+  --brick-negro: #000000;
+  --brick-oscuro: #07080a;
+  --brick-blanco: #ffffff;
+  --brick-texto-suave: #d1d5db;
+  --brick-radio: 12px;
+  --brick-transicion: 0.3s ease;
+}
+
+/*Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+/* Base del documento */
+body {
+  font-family: Arial, sans-serif;
+  color: var(--brick-blanco);
+  text-align: center;
+  background-color: var(--brick-oscuro);
+  background-image: url('/img/LegoFondo.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/*Elementos genéricos */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  text-decoration: none;
+}
