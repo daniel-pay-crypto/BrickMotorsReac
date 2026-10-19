@@ -1,0 +1,239 @@
+.hero-video-container {
+  position: relative;
+  width: 100%;
+  height: 80vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  padding: 0 5%;
+  background-color: #000000;
+  z-index: 0;
+}
+
+.video-fondo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  object-fit: cover;
+  filter: brightness(0.5);
+}
+
+.hero-video-container .hero-contenido {
+  position: relative;
+  z-index: 1;
+  color: #ffffff;
+  max-width: 600px;
+}
+
+.hero-video-container .hero-contenido h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.etiqueta-novedad {
+  background-color: yellow;
+  color: #000000;
+  padding: 5px 10px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  display: inline-block;
+  margin-bottom: 15px;
+}
+
+.seccion-info-robot {
+  padding: 80px 10%;
+  background-image: url('/img/fondoradiactivo.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: #ffffff;
+}
+
+.contenedor-columnas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 60px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.columna-imagen {
+  width: 100%;
+  max-width: 550px;
+  height: auto;
+  transform: scale(1.25);
+  filter: drop-shadow(0px 15px 20px rgba(0, 0, 0, 0.9));
+}
+
+.columna-imagen img {
+  max-width: 100%;
+  height: auto;
+  filter: drop-shadow(0px 15px 20px rgba(0, 0, 0, 0.8));
+}
+
+.columna-texto {
+  flex: 1;
+  min-width: 300px;
+}
+
+.columna-texto h2 {
+  font-size: 2.5rem;
+  color: #f1c40f;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.columna-texto p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: #cccccc;
+  margin-bottom: 20px;
+}
+
+.datos-tecnicos {
+  list-style: none;
+  margin-top: 30px;
+  background-color: #222222;
+  padding: 20px;
+  border-radius: 8px;
+  border-left: 5px solid #f1c40f;
+}
+
+.datos-tecnicos li {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  color: #eeeeee;
+}
+
+.seccion-impacto {
+  padding: 100px 5%;
+  text-align: center;
+  overflow: hidden;
+}
+
+.titulo-impacto {
+  font-size: 3rem;
+  color: #ffcf00;
+  margin-bottom: 50px;
+  font-weight: bold;
+}
+
+.escenario-pelea {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  height: 600px;
+  max-width: 1200px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.subtitulo-impacto {
+  font-size: 2.5rem;
+  color: #ffcf00;
+  margin-top: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.luchador {
+  width: 50%;
+  max-width: 800px;
+  object-fit: contain;
+  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.8s;
+  opacity: 0;
+}
+
+.kaiju {
+  transform: translateX(-100vw) scale(1.6);
+}
+
+.cherno-punch {
+  transform: translateX(100vw) scale(1.6);
+}
+
+.escenario-pelea.animar .kaiju {
+  transform: translateX(50%) scale(1.6);
+  opacity: 1;
+  z-index: 2;
+}
+
+.escenario-pelea.animar .cherno-punch {
+  transform: translateX(-50%) scale(1.6);
+  opacity: 1;
+  z-index: 1;
+}
+
+.contenedor-video-destruccion {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+  background-color: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  padding: 2.5rem;
+  margin: 2rem auto;
+  border-radius: 12px;
+  max-width: 1100px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+}
+
+.columna-video {
+  flex: 1;
+  max-width: 50%;
+}
+
+.video-pelea {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+  display: block;
+}
+
+.columna-texto-llamativo {
+  flex: 1;
+  color: #ffffff;
+  text-align: left;
+}
+
+.columna-texto-llamativo h2 {
+  font-size: 2.2rem;
+  color: #ffcc00;
+  margin-bottom: 1rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.columna-texto-llamativo p {
+  font-size: 1.25rem;
+  line-height: 1.6;
+  font-weight: 700;
+  color: #e0e0e0;
+}
+
+@media (max-width: 768px) {
+  .contenedor-video-destruccion {
+    flex-direction: column;
+    padding: 1.5rem;
+  }
+
+  .columna-video {
+    max-width: 100%;
+  }
+
+  .columna-texto-llamativo {
+    text-align: center;
+  }
+}
