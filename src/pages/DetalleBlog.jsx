@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Navbar } from '../components/organisms/Navbar';
 import { Footer } from '../components/organisms/Footer';
 import { ArticuloBlog } from '../components/organisms/ArticuloBlog';
-import { getArticuloById } from '../data/blogData';
+import { getArticuloById } from '../data/blogdata';
 
 export function DetalleBlog() {
   const { id } = useParams();

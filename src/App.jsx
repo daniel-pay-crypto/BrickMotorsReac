@@ -4,6 +4,7 @@ import { Productos } from './pages/Productos';
 import ProductDetail from './pages/ProductDetail';
 import { Contacto } from './pages/Contacto';
 import { DetalleBlog } from './pages/DetalleBlog';
+import { Cherno } from './pages/Cherno';
 import { Administracion } from './pages/Administracion';
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
       <Route path="/productos" element={<Productos />} />
       <Route path="/products/:id" element={<ProductDetail />} />
       <Route path="/contacto" element={<Contacto />} />
+      <Route path="/cherno" element={<Cherno />} />
       <Route path="/admin" element={<Administracion />} />
       <Route path="/blog/:id" element={<DetalleBlog />} />
       <Route

@@ -1,24 +1,21 @@
-// src/components/organisms/SeccionProductos.jsx
-import { getLegos } from '../../data/legosData'; //mi base de datos simulada
-import { TarjetaProducto } from '../molecules/TarjetaProducto'; // La plantilla de la tarjeta
+import { Container, Row, Col } from 'react-bootstrap';
+import { getLegos } from '../../data/legosData';
+import { TarjetaProducto } from '../molecules/TarjetaProducto';
 
 export function SeccionProductos() {
-  // Guardamos todos los legos en una variable
-  const listaDeLegos = getLegos(); 
+  const listaDeLegos = getLegos();
 
   return (
-    <div className="seccion-productos">
+    <Container className="seccion-productos">
       <h2>Productos Destacados</h2>
-      
-      <div className="grid-productos">
-        {/* Aquí usamos .map() para recorrer la lista de datos */}
+
+      <Row className="g-3 mt-2 justify-content-center">
         {listaDeLegos.map((lego) => (
-          <TarjetaProducto 
-            key={lego.id}
-            lego={lego} /* Le paso todos los datos del lego a la tarjeta */
-          />
+          <Col key={lego.id} xs={12} sm={6} lg={4} xl={3} className="d-flex justify-content-center">
+            <TarjetaProducto lego={lego} />
+          </Col>
         ))}
-      </div>
-    </div>
+      </Row>
+    </Container>
   );
 }

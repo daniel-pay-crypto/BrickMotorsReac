@@ -1,6 +1,6 @@
 import { Container, Card } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
-import products from '../data/Products.js';
+import products from '../data/products.js';
 import Image from '../components/atoms/Image.jsx';
 import Text from '../components/atoms/Text.jsx';
 
