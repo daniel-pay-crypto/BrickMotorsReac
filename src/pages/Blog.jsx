@@ -1,3 +1,4 @@
+import './Blog.css';
 import { TarjetaBlog } from '../components/molecules/TarjetaBlog';
 
 export function Blog() {
