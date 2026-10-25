@@ -1,3 +1,4 @@
+import './Nosotros.css';
 import { TarjetaDesarrollador } from '../components/molecules/TarjetaDesarrollador';
 
 export function Nosotros() {
