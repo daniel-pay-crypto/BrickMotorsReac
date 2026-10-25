@@ -1,0 +1,21 @@
+/* Organismo Footer (en el CSS viejo era el selector global "footer") */
+
+.footer-brick {
+  background-color: var(--brick-oscuro);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 40px 20px;
+  color: var(--brick-blanco);
+}
+
+
+
+.footer-brick__correo {
+  color: var(--brick-amarillo);
+}
+
+
+.footer-brick__redes {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}

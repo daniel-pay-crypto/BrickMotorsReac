@@ -1,0 +1,44 @@
+
+.nosotros-template {
+  background-color: var(--brick-oscuro);
+  min-height: 100vh;
+}
+
+.seccion-nosotros-hero {
+  background-color: var(--brick-oscuro);
+  background-image: url('/img/nosotros-fondo.jpg');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+}
+
+.overlay-nosotros {
+  background-color: rgba(10, 10, 15, 0.45);
+  backdrop-filter: blur(2px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  max-width: 1050px;
+  width: 100%;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+.titulo-nosotros {
+  font-size: 2.4rem;
+  color: #ffcc00;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
+}
+
+.subtitulo-nosotros {
+  color: var(--brick-texto-suave);
+  font-size: 1.1rem;
+  margin-bottom: 2.5rem;
+}
