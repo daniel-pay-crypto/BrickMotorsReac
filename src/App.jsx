@@ -11,6 +11,8 @@ import { Cherno } from './pages/Cherno';
 import { Administracion } from './pages/Administracion';
 import { Nosotros } from './pages/Nosotros';
 import { Blog } from './pages/Blog';
+import { Login } from './pages/Login';
+import { Registro } from './pages/Registro';
 
 function App() {
   return (
@@ -26,6 +28,8 @@ function App() {
         <Route path="/blog/:id" element={<DetalleBlog />} />
         <Route path="/nosotros" element={<Nosotros />} />
         <Route path="/blog" element={<Blog />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/registro" element={<Registro />} />
         <Route
           path="*"
           element={<h1 className="text-center mt-5 text-white">404 - Página no encontrada</h1>}

@@ -11,20 +11,24 @@ export function Navbar() {
     setMenuAbierto(!menuAbierto);
   };
 
+  const cerrarMenu = () => {
+    setMenuAbierto(false);
+  };
+
   return (
     <header className="barra-navegacion">
-      {/* Al hacer clic, ejecuta toggleMenu */}
-      <button className="btn-hamburguesa" onClick={toggleMenu}>
+      {/*hacer clic, ejecuta toggleMenu */}
+      <button className="btn-hamburguesa" onClick={toggleMenu} aria-label="Abrir menú">
         ☰
       </button>
       
       <nav className={`menu-enlaces ${menuAbierto ? 'activo' : ''}`} id="menu">
-        <Link to="/" onClick={toggleMenu}>Inicio</Link>
-        <Link to="/productos" onClick={toggleMenu}>Productos</Link>
-        <Link to="/nosotros" onClick={toggleMenu}>Nosotros</Link>
-        <Link to="/blog" onClick={toggleMenu}>Blog</Link>
-        <Link to="/contacto" onClick={toggleMenu}>Contacto</Link>
-        <Link to="/cherno" onClick={toggleMenu}>Cherno</Link>
+        <Link to="/" onClick={cerrarMenu}>Inicio</Link>
+        <Link to="/productos" onClick={cerrarMenu}>Productos</Link>
+        <Link to="/nosotros" onClick={cerrarMenu}>Nosotros</Link>
+        <Link to="/blog" onClick={cerrarMenu}>Blog</Link>
+        <Link to="/contacto" onClick={cerrarMenu}>Contacto</Link>
+        <Link to="/cherno" onClick={cerrarMenu}>Cherno</Link>
       </nav>
 
       <div className="nav-derecha">

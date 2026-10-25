@@ -1,4 +1,3 @@
-/*NAVEGACIÓN Y HEADER */
 .barra-navegacion {
     position: sticky;
     top: 0;
@@ -12,34 +11,130 @@
     width: 100%;
 }
 
+.btn-hamburguesa {
+    display: none;
+    font-size: 30px;
+    background: none;
+    border: none;
+    color: black;
+    cursor: pointer;
+    position: relative;
+    z-index: 1002;
+}
 
-/* Contenedor derecho que agrupa botones y carrito */
+.menu-enlaces {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+}
+
+.menu-enlaces a {
+    color: #000000;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 10px;
+    transition: color 0.3s ease;
+}
+
+.menu-enlaces a:hover {
+    color: #e3000b;
+}
 
 .nav-derecha {
     display: flex;
     align-items: center;
-    gap: 40px; 
-}
-
-.menu-enlaces {
-  display: flex;
-  gap: 25px;
-  align-items: center;
-}
-
-.menu-enlaces a {
-  text-decoration: none;
-  color: #000000;
-  font-weight: bold;
-  font-size: 16px;
-  transition: color 0.3s ease;
-}
-
-.menu-enlaces a:hover {
-  color: #e3000b;
+    gap: 40px;
 }
 
 .botones-sesion {
-  display: flex;
-  gap: 15px;
+    display: flex;
+    gap: 15px;
+}
+
+.btn-sesion, .btn-registro {
+    color: white;
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.btn-sesion {
+    border: 2px solid #000000;
+    background-color: #000000;
+}
+
+.btn-sesion:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.btn-registro {
+    background-color: #e3000b;
+    border: 2px solid #e3000b;
+}
+
+.btn-registro:hover {
+    background-color: #b30008;
+    border-color: #b30008;
+}
+
+.btn-carrito {
+    background: none;
+    border: none;
+    font-size: 26px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.btn-carrito:hover {
+    transform: scale(1.15);
+}
+
+@media (max-width: 768px) {
+    .barra-navegacion {
+        padding: 10px 15px;
+    }
+    .btn-hamburguesa {
+        display: block;
+    }
+    .menu-enlaces {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 250px;
+        height: 100vh;
+        background-color: #ffffff;
+        flex-direction: column;
+        padding-top: 80px;
+        transition: left 0.3s ease;
+        z-index: 999;
+    }
+    .menu-enlaces.activo {
+        left: 0;
+    }
+    .menu-enlaces a {
+        color: #000000;
+        padding: 15px 30px;
+        border-bottom: 1px solid #e0e0e0;
+    }
+    .nav-derecha {
+        gap: 15px;
+    }
+    .btn-carrito {
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 480px) {
+    .botones-sesion {
+        flex-direction: column;
+        gap: 5px;
+    }
+    .btn-sesion, .btn-registro {
+        padding: 5px 10px;
+        font-size: 12px;
+    }
 }
