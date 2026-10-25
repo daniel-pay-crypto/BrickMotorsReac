@@ -1,5 +1,5 @@
 import './Nosotros.css';
-import { TarjetaDesarrollador } from '../components/molecules/TarjetaDesarrollador';
+import  TarjetaDesarrollador from '../components/molecules/TarjetaDesarrollador';
 
 export function Nosotros() {
   const equipo = [
@@ -38,9 +38,9 @@ export function Nosotros() {
           {equipo.map((miembro, index) => (
             <TarjetaDesarrollador 
               key={index}
-              nombre={miembro.nombre}
-              rol={miembro.rol}
-              descripcion={miembro.descripcion}
+              name={miembro.nombre}
+              role={miembro.rol}
+              description={miembro.descripcion}
             />
           ))}
         </div>
