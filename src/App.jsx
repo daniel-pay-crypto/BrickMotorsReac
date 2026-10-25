@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import { Navbar } from './components/organisms/Navbar';
 import { Footer } from './components/organisms/Footer';
 
-import { Home } from './pages/Home';
+import  Home from './pages/Home';
 import { Productos } from './pages/Productos';
 import ProductDetail from './pages/ProductDetail';
 import { Contacto } from './pages/Contacto';
