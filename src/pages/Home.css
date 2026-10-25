@@ -1,0 +1,89 @@
+/* Espaciado general del contenido principal */
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding-bottom: 50px;
+}
+
+/* Sección de bienvenida */
+.fondo-oscuro {
+  background-color: var(--brick-oscuro, #07080a);
+  padding: 50px 20px;
+  border-top: 3px solid var(--brick-amarillo, #ffcf00);
+  border-bottom: 3px solid var(--brick-amarillo, #ffcf00);
+}
+
+.titulo-bienvenida {
+  color: var(--brick-amarillo, #ffcf00);
+  font-size: 2.2rem;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+.texto-bienvenida {
+  font-size: 1.2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Sección del Proyecto Cherno */
+.seccion-cherno {
+  padding: 20px;
+}
+
+.titulo-cherno {
+  color: var(--brick-rojo, #e3000b);
+  margin-bottom: 40px;
+  font-size: 2rem;
+}
+
+.contenedor-cherno {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.cherno-imagen img {
+  max-width: 100%;
+  width: 450px;
+  border-radius: var(--brick-radio, 12px);
+  border: 3px solid var(--brick-amarillo, #ffcf00);
+  transition: transform 0.3s ease;
+}
+
+.cherno-imagen img:hover {
+  transform: scale(1.03);
+}
+
+.cherno-texto {
+  flex: 1;
+  min-width: 300px;
+  font-size: 1.2rem;
+  text-align: left;
+}
+
+/* Secciones animadas (Productos de Star Wars) */
+.seccion-animada, 
+.seccion-animada2 {
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+
+.imagen-deslizable {
+  max-width: 350px;
+  margin: 30px 0;
+  transition: transform 0.5s ease;
+}
+
+.imagen-deslizable:hover {
+  transform: translateY(-15px);
+}
