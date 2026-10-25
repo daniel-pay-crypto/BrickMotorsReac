@@ -1,3 +1,4 @@
+import './Home.css';
 //import { Navbar } from '../components/organisms/Navbar';
 import { HeroBanner } from '../components/organisms/HeroBanner';
 //import { Footer } from '../components/organisms/Footer';
