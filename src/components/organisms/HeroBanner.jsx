@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-
+import './HeroBanner.css';
 export function HeroBanner() {
   return (
     <section className="hero-banner">

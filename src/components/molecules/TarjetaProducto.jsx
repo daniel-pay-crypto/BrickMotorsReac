@@ -1,3 +1,4 @@
+import './TarjetaProducto.css';
 export function TarjetaProducto({ lego }) {
   return (
     <div className="tarjeta-producto">

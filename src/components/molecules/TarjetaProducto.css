@@ -1,0 +1,29 @@
+.tarjeta-producto {
+    background-color: rgba(0,0,0,0.8);
+    padding: 20px;
+    border-radius: 10px;
+    width: 250px;
+    border: 2px solid #ffcf00;
+}
+
+.tarjeta-producto img {
+    height: 150px;
+    object-fit: contain;
+}
+
+.tarjeta-producto .precio {
+    color: #ffcf00;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.btn-agregar {
+    background-color: #ffcf00;
+    color: black;
+    border: none;
+    padding: 10px 15px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100%;
+}

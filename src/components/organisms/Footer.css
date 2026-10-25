@@ -1,0 +1,11 @@
+/*FOOTER */
+footer {
+    background-image: url('../img/legos.jpg');
+    background-size: cover; 
+    background-position: center; 
+    padding: 60px 20px; 
+    margin-top: 50px; 
+    border-top: 4px solid #ffcf00; 
+    width: 100%;
+    color: black;
+}

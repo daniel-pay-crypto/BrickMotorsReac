@@ -1,0 +1,22 @@
+/*NAVEGACIÓN Y HEADER */
+.barra-navegacion {
+    position: sticky;
+    top: 0;
+    z-index: 1001;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffcf00;
+    padding: 15px 30px;
+    border-bottom: 4px solid #000000;
+    width: 100%;
+}
+
+
+/* Contenedor derecho que agrupa botones y carrito */
+
+.nav-derecha {
+    display: flex;
+    align-items: center;
+    gap: 40px; 
+}

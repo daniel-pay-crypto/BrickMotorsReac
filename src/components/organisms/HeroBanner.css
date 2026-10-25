@@ -1,0 +1,23 @@
+/*RESTAURACIÓN DEL HERO BANNER MÓVIL*/
+    .hero-banner {
+        background-image: linear-gradient(to right, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.6) 100%), url('../img/Fotoat1.jpeg');
+        padding: 40px 20px;
+        justify-content: flex-start; /* Devuelve el contenido a la izquierda */
+        text-align: left;
+    }
+    .hero-contenido {
+        max-width: 100%;
+        text-align: left;
+    }
+    .hero-contenido h1 {
+        font-size: 24px;
+    }
+    .hero-contenido p {
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+    .hero-botones {
+        flex-direction: column;
+        align-items: flex-start; /* Botones a la izquierda, no centrados */
+        gap: 10px;
+    }
