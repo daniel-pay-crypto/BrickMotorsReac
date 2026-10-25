@@ -6,6 +6,8 @@ import { Contacto } from './pages/Contacto';
 import { DetalleBlog } from './pages/DetalleBlog';
 import { Cherno } from './pages/Cherno';
 import { Administracion } from './pages/Administracion';
+import { Nosotros } from './pages/Nosotros';
+import { Blog } from './pages/Blog';
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
       <Route path="/cherno" element={<Cherno />} />
       <Route path="/admin" element={<Administracion />} />
       <Route path="/blog/:id" element={<DetalleBlog />} />
+      <Route path="/nosotros" element={<Nosotros />} />
+      <Route path="/blog" element={<Blog />} />
       <Route
         path="*"
         element={<h1 className="text-center mt-5 text-white">404 - Página no encontrada</h1>}
