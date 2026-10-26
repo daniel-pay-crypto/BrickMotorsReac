@@ -1,6 +1,8 @@
 import { Routes, Route } from 'react-router-dom';
 import { Navbar } from './components/organisms/Navbar';
 import { Footer } from './components/organisms/Footer';
+import { PanelCarrito } from './components/organisms/PanelCarrito';
+import { RutaAdmin } from './components/organisms/RutaAdmin';
 
 import  Home from './pages/Home';
 import { Productos } from './pages/Productos';
@@ -18,13 +20,21 @@ function App() {
   return (
     <>
       <Navbar />
+      <PanelCarrito />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/productos" element={<Productos />} />
         <Route path="/products/:id" element={<ProductDetail />} />
         <Route path="/contacto" element={<Contacto />} />
         <Route path="/cherno" element={<Cherno />} />
-        <Route path="/admin" element={<Administracion />} />
+        <Route
+          path="/admin"
+          element={
+            <RutaAdmin>
+              <Administracion />
+            </RutaAdmin>
+          }
+        />
         <Route path="/blog/:id" element={<DetalleBlog />} />
         <Route path="/nosotros" element={<Nosotros />} />
         <Route path="/blog" element={<Blog />} />

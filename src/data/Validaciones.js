@@ -23,3 +23,11 @@ export const esNombreValido = (valor) => {
     !tieneLetrasRepetidas(nombre)
   );
 };
+
+export const esContrasenaValida = (valor) =>
+  valor.length >= 8 &&
+  !/\s/.test(valor) &&
+  /[A-ZÁÉÍÓÚÑ]/.test(valor) &&
+  /[a-záéíóúñ]/.test(valor) &&
+  /[0-9]/.test(valor) &&
+  /[^A-Za-z0-9ÁÉÍÓÚÑáéíóúñ\s]/.test(valor);

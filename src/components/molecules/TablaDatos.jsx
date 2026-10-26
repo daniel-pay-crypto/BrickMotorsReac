@@ -1,6 +1,6 @@
 import { Table } from 'react-bootstrap';
 
-export function TablaDatos({ columnas, filas }) {
+export function TablaDatos({ columnas, filas, renderAcciones }) {
   return (
     <Table striped hover responsive>
       <thead>
@@ -8,6 +8,7 @@ export function TablaDatos({ columnas, filas }) {
           {columnas.map((columna) => (
             <th key={columna.clave}>{columna.titulo}</th>
           ))}
+          {renderAcciones && <th>Acciones</th>}
         </tr>
       </thead>
       <tbody>
@@ -16,6 +17,7 @@ export function TablaDatos({ columnas, filas }) {
             {columnas.map((columna) => (
               <td key={columna.clave}>{fila[columna.clave]}</td>
             ))}
+            {renderAcciones && <td>{renderAcciones(fila)}</td>}
           </tr>
         ))}
       </tbody>

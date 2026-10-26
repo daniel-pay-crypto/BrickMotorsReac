@@ -1,4 +1,6 @@
 // karma.conf.cjs
+const path = require('path');
+
 module.exports = function (config) {
   config.set({
     frameworks: ['jasmine'],
@@ -28,6 +30,13 @@ module.exports = function (config) {
             },
           },
           {
+            test: /\.jsx?$/,
+            enforce: 'post',
+            include: path.resolve(__dirname, 'src'),
+            exclude: [/node_modules/, path.resolve(__dirname, 'src/test')],
+            use: path.resolve(__dirname, 'coverage-loader.cjs'),
+          },
+          {
             test: /\.css$/,
             // url:false -> css-loader no intenta resolver url('/img/...');
             // esas rutas las sirve Vite desde /public, no webpack.
@@ -41,8 +50,8 @@ module.exports = function (config) {
     },
     reporters: ['progress', 'kjhtml', 'coverage'],
     coverageReporter: {
-      type: 'html',
       dir: 'coverage/',
+      reporters: [{ type: 'html' }, { type: 'text-summary' }],
     },
     browsers: ['ChromeHeadless'],
     singleRun: true,

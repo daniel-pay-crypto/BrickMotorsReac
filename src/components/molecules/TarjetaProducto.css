@@ -1,4 +1,5 @@
 .tarjeta-producto {
+    position: relative;
     background-color: rgba(0,0,0,0.8);
     padding: 20px;
     border-radius: 10px;
@@ -26,4 +27,28 @@
     cursor: pointer;
     border-radius: 5px;
     width: 100%;
+}
+
+.tarjeta-producto .precio-original {
+    color: #aaaaaa;
+    font-size: 15px;
+    text-decoration: line-through;
+    margin-bottom: 0;
+}
+
+.tarjeta-producto .etiqueta-descuento {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #e3000b;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 5px;
+}
+
+.btn-agregar:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }

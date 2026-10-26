@@ -6,7 +6,7 @@ export function SeccionProductos() {
   const listaDeLegos = getLegos();
 
   return (
-    <Container className="seccion-productos">
+    <Container id="productos" className="seccion-productos">
       <h2>Productos Destacados</h2>
 
       <Row className="g-3 mt-2 justify-content-center">

@@ -1,5 +1,6 @@
 import './ItemCarrito.css';
 import { useState } from 'react';
+import { calcularPrecioFinal } from '../../data/legosData';
 
 export function ItemCarrito({
   item,
@@ -37,6 +38,19 @@ export function ItemCarrito({
       <img src={item.imagen} alt={item.nombre} />
       <div className="item-carrito-info">
         <span className="item-carrito-nombre">{item.nombre}</span>
+        {item.precio !== undefined && (
+          <span className="item-carrito-precio">
+            {item.descuento > 0 && (
+              <span className="precio-original">${item.precio.toLocaleString('es-CL')}</span>
+            )}
+            <span className="precio-final">
+              ${calcularPrecioFinal(item.precio, item.descuento).toLocaleString('es-CL')}
+            </span>
+            {item.descuento > 0 && (
+              <span className="etiqueta-descuento">-{item.descuento}%</span>
+            )}
+          </span>
+        )}
         <div className="controles-cantidad">
           <button
             className="btn-cantidad btn-paso"

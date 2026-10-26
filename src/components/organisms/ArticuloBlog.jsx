@@ -1,3 +1,4 @@
+import './ArticuloBlog.css';
 import { Link } from 'react-router-dom';
 
 export function ArticuloBlog({ articulo }) {

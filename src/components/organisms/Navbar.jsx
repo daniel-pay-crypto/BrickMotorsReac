@@ -1,12 +1,15 @@
 import './Navbar.css';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useSesion } from '../../context/SesionContext';
+import { useCarrito } from '../../context/CarritoContext';
 
 export function Navbar() {
-  // Creamos un estado que dice si el menú está abierto (true) o cerrado (false)
   const [menuAbierto, setMenuAbierto] = useState(false);
+  const { usuario, cerrarSesion } = useSesion();
+  const { cantidadTotal, abrirPanel } = useCarrito();
+  const navigate = useNavigate();
 
-  // Función para alternar el estado
   const toggleMenu = () => {
     setMenuAbierto(!menuAbierto);
   };
@@ -15,13 +18,17 @@ export function Navbar() {
     setMenuAbierto(false);
   };
 
+  const salir = () => {
+    cerrarSesion();
+    navigate('/');
+  };
+
   return (
     <header className="barra-navegacion">
-      {/*hacer clic, ejecuta toggleMenu */}
       <button className="btn-hamburguesa" onClick={toggleMenu} aria-label="Abrir menú">
         ☰
       </button>
-      
+
       <nav className={`menu-enlaces ${menuAbierto ? 'activo' : ''}`} id="menu">
         <Link to="/" onClick={cerrarMenu}>Inicio</Link>
         <Link to="/productos" onClick={cerrarMenu}>Productos</Link>
@@ -33,10 +40,25 @@ export function Navbar() {
 
       <div className="nav-derecha">
         <div className="botones-sesion">
-          <Link to="/login" className="btn-sesion">Iniciar Sesion</Link>
-          <Link to="/registro" className="btn-registro">Registrarse</Link>
+          {usuario ? (
+            <>
+              <span className="saludo-usuario">Hola, {usuario.nombre.split(' ')[0]}</span>
+              {usuario.esAdmin && (
+                <Link to="/admin" className="btn-registro">Panel Admin</Link>
+              )}
+              <button className="btn-sesion" onClick={salir}>Cerrar sesión</button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="btn-sesion">Iniciar Sesion</Link>
+              <Link to="/registro" className="btn-registro">Registrarse</Link>
+            </>
+          )}
         </div>
-        <button className="btn-carrito">🛒</button>
+        <button className="btn-carrito" onClick={abrirPanel} aria-label="Abrir carrito">
+          🛒
+          {cantidadTotal > 0 && <span className="contador-carrito">{cantidadTotal}</span>}
+        </button>
       </div>
     </header>
   );

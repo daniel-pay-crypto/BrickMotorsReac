@@ -3,7 +3,8 @@ import Button from '../atoms/Button.jsx';
 import { FormField } from '../molecules/FormField';
 import { SelectField } from '../molecules/SelectField';
 import { TablaDatos } from '../molecules/TablaDatos';
-import { estaVacio, esGmailValido } from '../../data/Validaciones.js';
+import { estaVacio, esGmailValido, esNombreValido } from '../../data/Validaciones.js';
+import { getPersonal, addPersonal, updatePersonal } from '../../data/personalData';
 
 const columnas = [
   { clave: 'nombre', titulo: 'Nombre' },
@@ -16,10 +17,9 @@ const tipos = ['Administrador', 'Vendedor', 'Cliente'];
 const valoresIniciales = { nombre: '', correo: '', tipo: '' };
 
 export function AdminUsuarios() {
-  const [usuarios, setUsuarios] = useState([
-    { nombre: 'Juan Pérez', correo: 'juan@gmail.com', tipo: 'Administrador' },
-  ]);
+  const [usuarios, setUsuarios] = useState(getPersonal());
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
+  const [editandoId, setEditandoId] = useState(null);
   const [valores, setValores] = useState(valoresIniciales);
   const [errores, setErrores] = useState({});
 
@@ -29,8 +29,23 @@ export function AdminUsuarios() {
 
   const cerrarFormulario = () => {
     setMostrarFormulario(false);
+    setEditandoId(null);
     setValores(valoresIniciales);
     setErrores({});
+  };
+
+  const abrirNuevo = () => {
+    setEditandoId(null);
+    setValores(valoresIniciales);
+    setErrores({});
+    setMostrarFormulario(true);
+  };
+
+  const abrirEditar = (usuario) => {
+    setEditandoId(usuario.id);
+    setValores({ nombre: usuario.nombre, correo: usuario.correo, tipo: usuario.tipo });
+    setErrores({});
+    setMostrarFormulario(true);
   };
 
   const handleSubmit = (e) => {
@@ -38,6 +53,8 @@ export function AdminUsuarios() {
     const nuevos = {};
     if (estaVacio(valores.nombre)) {
       nuevos.nombre = 'El nombre no puede estar vacío.';
+    } else if (!esNombreValido(valores.nombre)) {
+      nuevos.nombre = 'Ingresa un nombre válido: solo letras y sin repetir una letra 3 veces seguidas.';
     }
     if (estaVacio(valores.correo) || !esGmailValido(valores.correo)) {
       nuevos.correo = 'Ingresa un correo válido de @gmail.com.';
@@ -47,7 +64,17 @@ export function AdminUsuarios() {
     }
     setErrores(nuevos);
     if (Object.keys(nuevos).length === 0) {
-      setUsuarios([...usuarios, valores]);
+      const datos = {
+        nombre: valores.nombre.trim(),
+        correo: valores.correo.trim().toLowerCase(),
+        tipo: valores.tipo,
+      };
+      if (editandoId === null) {
+        addPersonal(datos);
+      } else {
+        updatePersonal(editandoId, datos);
+      }
+      setUsuarios(getPersonal());
       cerrarFormulario();
     }
   };
@@ -55,13 +82,21 @@ export function AdminUsuarios() {
   return (
     <section>
       <h2 className="mb-4">Usuarios</h2>
-      <Button className="mb-3" onClick={() => setMostrarFormulario(true)}>
+      <Button className="mb-3" onClick={abrirNuevo}>
         + Nuevo usuario
       </Button>
-      <TablaDatos columnas={columnas} filas={usuarios} />
+      <TablaDatos
+        columnas={columnas}
+        filas={usuarios}
+        renderAcciones={(usuario) => (
+          <Button variant="warning" onClick={() => abrirEditar(usuario)}>
+            Editar
+          </Button>
+        )}
+      />
       {mostrarFormulario && (
         <form onSubmit={handleSubmit} noValidate className="border rounded p-3 bg-white">
-          <h3 className="h5 mb-3">Nuevo usuario</h3>
+          <h3 className="h5 mb-3">{editandoId === null ? 'Nuevo usuario' : 'Editar usuario'}</h3>
           <FormField
             id="nombre"
             name="nombre"

@@ -82,11 +82,40 @@
 }
 
 .btn-carrito {
+    position: relative;
     background: none;
     border: none;
     font-size: 26px;
     cursor: pointer;
     transition: transform 0.2s ease;
+}
+
+.contador-carrito {
+    position: absolute;
+    top: -6px;
+    right: -8px;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 4px;
+    border-radius: 10px;
+    background-color: #e3000b;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.saludo-usuario {
+    align-self: center;
+    color: #000000;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.btn-sesion {
+    cursor: pointer;
 }
 
 .btn-carrito:hover {

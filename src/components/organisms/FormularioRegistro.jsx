@@ -4,7 +4,8 @@ import { Container, Row, Col, Card, Alert } from 'react-bootstrap';
 import Text from '../atoms/Text.jsx';
 import Button from '../atoms/Button.jsx';
 import { FormField } from '../molecules/FormField';
-import { estaVacio, esGmailValido, esNombreValido } from '../../data/Validaciones.js';
+import { estaVacio, esGmailValido, esNombreValido, esContrasenaValida } from '../../data/Validaciones.js';
+import { registrarUsuario } from '../../data/usuariosData';
 
 const valoresIniciales = { nombre: '', correo: '', contrasena: '' };
 
@@ -29,6 +30,8 @@ export function FormularioRegistro() {
     }
     if (estaVacio(valores.contrasena)) {
       nuevos.contrasena = 'La contraseña no puede estar vacía.';
+    } else if (!esContrasenaValida(valores.contrasena)) {
+      nuevos.contrasena = 'La contraseña debe tener mínimo 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial.';
     }
     return nuevos;
   };
@@ -39,6 +42,11 @@ export function FormularioRegistro() {
     const nuevos = validar();
     setErrores(nuevos);
     if (Object.keys(nuevos).length === 0) {
+      const registrado = registrarUsuario(valores);
+      if (!registrado) {
+        setErrores({ correo: 'Ese correo ya está registrado.' });
+        return;
+      }
       setExito(true);
       setValores(valoresIniciales);
     }
@@ -75,7 +83,7 @@ export function FormularioRegistro() {
                 name="contrasena"
                 type="password"
                 label="Contraseña"
-                placeholder="Crea una contraseña"
+                placeholder="Ej. Clave123!"
                 value={valores.contrasena}
                 onChange={handleChange}
                 error={errores.contrasena}

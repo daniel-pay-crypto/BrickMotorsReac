@@ -1,11 +1,19 @@
 import { useState } from 'react';
 import { Container, Row, Col, Nav } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AdminProductos } from './AdminProductos';
 import { AdminUsuarios } from './AdminUsuarios';
+import { useSesion } from '../../context/SesionContext';
 
 export function PanelAdmin() {
   const [seccion, setSeccion] = useState('productos');
+  const { cerrarSesion } = useSesion();
+  const navigate = useNavigate();
+
+  const salir = () => {
+    cerrarSesion();
+    navigate('/');
+  };
 
   return (
     <Container fluid>
@@ -21,6 +29,9 @@ export function PanelAdmin() {
             </Nav.Link>
             <Nav.Link onClick={() => setSeccion('usuarios')} className="text-white">
               👤 Usuarios
+            </Nav.Link>
+            <Nav.Link onClick={salir} className="text-white">
+              🚪 Cerrar sesión
             </Nav.Link>
           </Nav>
         </Col>

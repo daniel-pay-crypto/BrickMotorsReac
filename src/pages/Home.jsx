@@ -1,29 +1,19 @@
 import './Home.css';
-//import { Navbar } from '../components/organisms/Navbar';
 import { HeroBanner } from '../components/organisms/HeroBanner';
-//import { Footer } from '../components/organisms/Footer';
 import { Link } from 'react-router-dom';
 import { SeccionProductos } from '../components/organisms/SeccionProductos';
 
-//exportacion
 export default function Home() {
   return (
     <>
-      
-      {/* Elementos ocultos para aprobar el test de la prueba unitaria*/}
-      
       <div className="container my-5" style={{ display: 'none' }}>
         <h1>Página de Inicio</h1>
         <p>Bienvenidos a nuestro sitio web.</p>
       </div>
 
-      {/* Navbar */}
-      {/* <Navbar /> */}
-
-
       <main>
         <HeroBanner />
-        
+
         <div className="fondo-oscuro">
           <h2 className="titulo-bienvenida">¡BIENVENIDO A NUESTRA TIENDA OFICIAL DE BRICK MOTORS!</h2>
           <div className="texto-bienvenida">
@@ -60,7 +50,6 @@ export default function Home() {
           <h2>¿Te atreves?</h2>
         </div>
       </main>
-      {/* <Footer /> */}
     </>
   );
 }

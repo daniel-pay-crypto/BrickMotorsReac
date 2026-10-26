@@ -1,4 +1,3 @@
-/* Espaciado general del contenido principal */
 main {
   display: flex;
   flex-direction: column;
@@ -6,7 +5,6 @@ main {
   padding-bottom: 50px;
 }
 
-/* Sección de bienvenida */
 .fondo-oscuro {
   background-color: var(--brick-oscuro, #07080a);
   padding: 50px 20px;
@@ -28,7 +26,6 @@ main {
   line-height: 1.6;
 }
 
-/* Sección del Proyecto Cherno */
 .seccion-cherno {
   padding: 20px;
 }
@@ -68,7 +65,6 @@ main {
   text-align: left;
 }
 
-/* Secciones animadas (Productos de Star Wars) */
 .seccion-animada, 
 .seccion-animada2 {
   padding: 40px 20px;
@@ -86,4 +82,8 @@ main {
 
 .imagen-deslizable:hover {
   transform: translateY(-15px);
+}
+
+.seccion-productos {
+  scroll-margin-top: 100px;
 }

@@ -1,7 +1,5 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Navbar } from '../components/organisms/Navbar';
-import { Footer } from '../components/organisms/Footer';
 import { ArticuloBlog } from '../components/organisms/ArticuloBlog';
 import { getArticuloById } from '../data/blogdata';
 
@@ -14,10 +12,6 @@ export function DetalleBlog() {
   }, [articulo]);
 
   return (
-    <>
-      <Navbar />
-      <ArticuloBlog articulo={articulo} />
-      <Footer />
-    </>
+    <ArticuloBlog articulo={articulo} />
   );
 }

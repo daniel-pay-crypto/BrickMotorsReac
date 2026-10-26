@@ -32,6 +32,32 @@
     font-size: 14px;
 }
 
+.item-carrito-precio {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+}
+
+.item-carrito .precio-original {
+    color: #777777;
+    text-decoration: line-through;
+}
+
+.item-carrito .precio-final {
+    font-weight: bold;
+}
+
+.item-carrito .etiqueta-descuento {
+    background-color: #e3000b;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
 .controles-cantidad {
     display: flex;
     flex-wrap: wrap;

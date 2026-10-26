@@ -29,4 +29,17 @@ describe('TablaDatos Component', () => {
     render(<TablaDatos columnas={columnas} filas={filas} />);
     expect(screen.getAllByRole('row').length).toBe(3);
   });
+
+  it('agrega una columna de acciones cuando se pasa renderAcciones', () => {
+    render(
+      <TablaDatos
+        columnas={columnas}
+        filas={filas}
+        renderAcciones={(fila) => <button>Editar {fila.nombre}</button>}
+      />
+    );
+    expect(screen.getByText('Acciones')).toBeTruthy();
+    expect(screen.getByText('Editar AT-AT')).toBeTruthy();
+    expect(screen.getByText('Editar AT-ST')).toBeTruthy();
+  });
 });

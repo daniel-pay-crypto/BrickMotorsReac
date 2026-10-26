@@ -5,6 +5,8 @@ import Text from '../atoms/Text.jsx';
 import Button from '../atoms/Button.jsx';
 import { FormField } from '../molecules/FormField';
 import { estaVacio, esGmailValido } from '../../data/Validaciones.js';
+import { buscarUsuario } from '../../data/usuariosData';
+import { useSesion } from '../../context/SesionContext';
 
 const valoresIniciales = { correo: '', contrasena: '' };
 
@@ -12,7 +14,9 @@ export function FormularioLogin() {
   const [valores, setValores] = useState(valoresIniciales);
   const [errores, setErrores] = useState({});
   const [exito, setExito] = useState(false);
+  const [errorLogin, setErrorLogin] = useState('');
   const navigate = useNavigate();
+  const { iniciarSesion } = useSesion();
 
   const handleChange = (e) => {
     setValores({ ...valores, [e.target.name]: e.target.value });
@@ -32,14 +36,19 @@ export function FormularioLogin() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setExito(false);
+    setErrorLogin('');
     const nuevos = validar();
     setErrores(nuevos);
     if (Object.keys(nuevos).length === 0) {
+      const usuario = buscarUsuario(valores.correo, valores.contrasena);
+      if (!usuario) {
+        setErrorLogin('Correo o contraseña incorrectos.');
+        return;
+      }
+      iniciarSesion(usuario);
       setExito(true);
       setValores(valoresIniciales);
-      if (valores.correo.trim().toLowerCase() === 'admin@gmail.com') {
-        navigate('/admin');
-      }
+      navigate(usuario.esAdmin ? '/admin' : '/');
     }
   };
 
@@ -74,6 +83,11 @@ export function FormularioLogin() {
                 Iniciar sesión
               </Button>
             </form>
+            {errorLogin && (
+              <Alert variant="danger" className="mt-3 mb-0">
+                {errorLogin}
+              </Alert>
+            )}
             {exito && (
               <Alert variant="success" className="mt-3 mb-0">
                 ¡Sesión iniciada con éxito!

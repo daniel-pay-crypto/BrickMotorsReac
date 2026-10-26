@@ -1,0 +1,27 @@
+.contenedor-blog {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.titulo-blog {
+    text-align: center;
+    color: #ffcf00;
+    margin-bottom: 40px;
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 0 15px rgba(255, 207, 0, 0.5);
+}
+
+.grid-blogs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+@media (max-width: 768px) {
+    .titulo-blog {
+        font-size: 1.9rem;
+    }
+}
