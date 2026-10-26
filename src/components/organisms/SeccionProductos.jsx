@@ -2,7 +2,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { getLegos } from '../../data/legosData';
 import { TarjetaProducto } from '../molecules/TarjetaProducto';
 
-export function SeccionProductos() {
+export function SeccionProductos({ onAgregar }) {
   const listaDeLegos = getLegos();
 
   return (
@@ -12,7 +12,7 @@ export function SeccionProductos() {
       <Row className="g-3 mt-2 justify-content-center">
         {listaDeLegos.map((lego) => (
           <Col key={lego.id} xs={12} sm={6} lg={4} xl={3} className="d-flex justify-content-center">
-            <TarjetaProducto lego={lego} />
+            <TarjetaProducto lego={lego} onAgregar={onAgregar} />
           </Col>
         ))}
       </Row>

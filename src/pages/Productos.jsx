@@ -1,9 +1,9 @@
 import { SeccionProductos } from '../components/organisms/SeccionProductos';
 
-export function Productos() {
+export function Productos({ agregarAlCarrito }) {
   return (
     <main>
-      <SeccionProductos />
+      <SeccionProductos onAgregar={agregarAlCarrito} />
     </main>
   );
 }

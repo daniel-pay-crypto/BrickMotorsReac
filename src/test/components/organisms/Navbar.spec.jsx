@@ -2,45 +2,18 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { Navbar } from '../../../components/organisms/Navbar';
-import { SesionProvider } from '../../../context/SesionProvider';
-import { CarritoProvider } from '../../../context/CarritoProvider';
-import { useCarrito } from '../../../context/CarritoContext';
 
-const renderNavbar = () =>
+const renderNavbar = (props = {}) =>
   render(
     <MemoryRouter>
-      <Navbar />
+      <Navbar {...props} />
     </MemoryRouter>
   );
 
-const renderConSesion = (usuario) => {
-  localStorage.setItem('sesion', JSON.stringify(usuario));
-  return render(
-    <MemoryRouter>
-      <SesionProvider>
-        <CarritoProvider>
-          <BotonAgregar />
-          <Navbar />
-        </CarritoProvider>
-      </SesionProvider>
-    </MemoryRouter>
-  );
-};
-
-function BotonAgregar() {
-  const { agregar } = useCarrito();
-  return (
-    <button onClick={() => agregar({ id: 1, nombre: 'AT-ST', imagen: '/a.png', precio: 1000, stock: 5 })}>
-      Agregar de prueba
-    </button>
-  );
-}
+const admin = { nombre: 'Administrador', correo: 'admin@gmail.com', esAdmin: true };
+const cliente = { nombre: 'Ana Gómez', correo: 'ana@gmail.com', esAdmin: false };
 
 describe('Navbar Component', () => {
-  beforeEach(() => {
-    localStorage.clear();
-  });
-
   it('renderiza los enlaces del menu', () => {
     renderNavbar();
     expect(screen.getByText('Inicio')).toBeTruthy();
@@ -64,26 +37,27 @@ describe('Navbar Component', () => {
     expect(menu.classList.contains('activo')).toBe(false);
   });
 
-  it('muestra el saludo, el panel admin y cerrar sesion para el admin', () => {
-    renderConSesion({ nombre: 'Administrador', correo: 'admin@gmail.com', esAdmin: true });
+  it('muestra el saludo y el panel admin para el admin y cierra sesion', () => {
+    const onCerrarSesion = jasmine.createSpy('onCerrarSesion');
+    renderNavbar({ usuario: admin, onCerrarSesion });
     expect(screen.getByText('Hola, Administrador')).toBeTruthy();
     expect(screen.getByText('Panel Admin').getAttribute('href')).toBe('/admin');
     expect(screen.queryByText('Iniciar Sesion')).toBeNull();
     fireEvent.click(screen.getByText('Cerrar sesión'));
-    expect(screen.getByText('Iniciar Sesion')).toBeTruthy();
-    expect(screen.queryByText('Panel Admin')).toBeNull();
+    expect(onCerrarSesion).toHaveBeenCalled();
   });
 
   it('no muestra el panel admin a un cliente', () => {
-    renderConSesion({ nombre: 'Ana Gómez', correo: 'ana@gmail.com', esAdmin: false });
+    renderNavbar({ usuario: cliente });
     expect(screen.getByText('Hola, Ana')).toBeTruthy();
     expect(screen.queryByText('Panel Admin')).toBeNull();
   });
 
-  it('muestra la cantidad de productos en el icono del carrito', () => {
-    renderConSesion({ nombre: 'Ana Gómez', correo: 'ana@gmail.com', esAdmin: false });
-    expect(screen.queryByText('1')).toBeNull();
-    fireEvent.click(screen.getByText('Agregar de prueba'));
-    expect(screen.getByText('1')).toBeTruthy();
+  it('muestra la cantidad del carrito y avisa al hacer click', () => {
+    const onAbrirCarrito = jasmine.createSpy('onAbrirCarrito');
+    renderNavbar({ cantidadCarrito: 3, onAbrirCarrito });
+    expect(screen.getByText('3')).toBeTruthy();
+    fireEvent.click(screen.getByLabelText('Abrir carrito'));
+    expect(onAbrirCarrito).toHaveBeenCalled();
   });
 });

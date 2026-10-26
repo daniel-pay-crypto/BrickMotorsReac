@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import { DetalleBlog } from '../../pages/DetalleBlog';
-import { articulosBlog } from '../../data/blogData';
+import { articulosBlog } from '../../data/blogdata';
 
 const renderPagina = (ruta) =>
   render(

@@ -1,9 +1,7 @@
 import './TarjetaProducto.css';
-import { useCarrito } from '../../context/CarritoContext';
 import { calcularPrecioFinal } from '../../data/legosData';
 
-export function TarjetaProducto({ lego }) {
-  const { agregar } = useCarrito();
+export function TarjetaProducto({ lego, onAgregar = () => {} }) {
   const tieneDescuento = lego.descuento > 0;
   const sinStock = lego.stock < 1;
 
@@ -16,7 +14,7 @@ export function TarjetaProducto({ lego }) {
         <p className="precio-original">${lego.precio.toLocaleString('es-CL')}</p>
       )}
       <p className="precio">${calcularPrecioFinal(lego.precio, lego.descuento).toLocaleString('es-CL')}</p>
-      <button className="btn-agregar" onClick={() => agregar(lego)} disabled={sinStock}>
+      <button className="btn-agregar" onClick={() => onAgregar(lego)} disabled={sinStock}>
         {sinStock ? 'Sin stock' : 'Agregar al Carrito'}
       </button>
     </div>

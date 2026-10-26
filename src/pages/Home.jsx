@@ -3,7 +3,7 @@ import { HeroBanner } from '../components/organisms/HeroBanner';
 import { Link } from 'react-router-dom';
 import { SeccionProductos } from '../components/organisms/SeccionProductos';
 
-export default function Home() {
+export default function Home({ agregarAlCarrito }) {
   return (
     <>
       <div className="container my-5" style={{ display: 'none' }}>
@@ -42,7 +42,7 @@ export default function Home() {
           <img src="/img/at-st.png" className="imagen-deslizable derecha" alt="caminante AT-ST" />
         </div>
 
-        <SeccionProductos />
+        <SeccionProductos onAgregar={agregarAlCarrito} />
 
         <div className="seccion-animada2">
           <h2>¡Cruza la galaxia persiguiendo a los ultimos jedis que quedan!</h2>

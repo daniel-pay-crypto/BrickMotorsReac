@@ -2,17 +2,11 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import App from '../App';
-import { SesionProvider } from '../context/SesionProvider';
-import { CarritoProvider } from '../context/CarritoProvider';
 
 const renderApp = (ruta) =>
   render(
     <MemoryRouter initialEntries={[ruta]}>
-      <SesionProvider>
-        <CarritoProvider>
-          <App />
-        </CarritoProvider>
-      </SesionProvider>
+      <App />
     </MemoryRouter>
   );
 

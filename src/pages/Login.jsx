@@ -1,9 +1,9 @@
 import { FormularioLogin } from '../components/organisms/FormularioLogin';
 
-export function Login() {
+export function Login({ onIniciarSesion }) {
   return (
     <main>
-      <FormularioLogin />
+      <FormularioLogin onIniciarSesion={onIniciarSesion} />
     </main>
   );
 }

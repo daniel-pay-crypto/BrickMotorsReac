@@ -2,8 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App.jsx';
-import { SesionProvider } from './context/SesionProvider';
-import { CarritoProvider } from './context/CarritoProvider';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/global.css';
 import './index.css';
@@ -11,11 +9,7 @@ import './index.css';
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
-      <SesionProvider>
-        <CarritoProvider>
-          <App />
-        </CarritoProvider>
-      </SesionProvider>
+      <App />
     </BrowserRouter>
   </React.StrictMode>,
 );

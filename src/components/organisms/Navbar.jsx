@@ -1,13 +1,14 @@
 import './Navbar.css';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useSesion } from '../../context/SesionContext';
-import { useCarrito } from '../../context/CarritoContext';
 
-export function Navbar() {
+export function Navbar({
+  usuario = null,
+  onCerrarSesion = () => {},
+  cantidadCarrito = 0,
+  onAbrirCarrito = () => {},
+}) {
   const [menuAbierto, setMenuAbierto] = useState(false);
-  const { usuario, cerrarSesion } = useSesion();
-  const { cantidadTotal, abrirPanel } = useCarrito();
   const navigate = useNavigate();
 
   const toggleMenu = () => {
@@ -19,7 +20,7 @@ export function Navbar() {
   };
 
   const salir = () => {
-    cerrarSesion();
+    onCerrarSesion();
     navigate('/');
   };
 
@@ -55,9 +56,9 @@ export function Navbar() {
             </>
           )}
         </div>
-        <button className="btn-carrito" onClick={abrirPanel} aria-label="Abrir carrito">
+        <button className="btn-carrito" onClick={onAbrirCarrito} aria-label="Abrir carrito">
           🛒
-          {cantidadTotal > 0 && <span className="contador-carrito">{cantidadTotal}</span>}
+          {cantidadCarrito > 0 && <span className="contador-carrito">{cantidadCarrito}</span>}
         </button>
       </div>
     </header>

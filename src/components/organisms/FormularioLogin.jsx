@@ -6,17 +6,15 @@ import Button from '../atoms/Button.jsx';
 import { FormField } from '../molecules/FormField';
 import { estaVacio, esGmailValido } from '../../data/Validaciones.js';
 import { buscarUsuario } from '../../data/usuariosData';
-import { useSesion } from '../../context/SesionContext';
 
 const valoresIniciales = { correo: '', contrasena: '' };
 
-export function FormularioLogin() {
+export function FormularioLogin({ onIniciarSesion = () => {} }) {
   const [valores, setValores] = useState(valoresIniciales);
   const [errores, setErrores] = useState({});
   const [exito, setExito] = useState(false);
   const [errorLogin, setErrorLogin] = useState('');
   const navigate = useNavigate();
-  const { iniciarSesion } = useSesion();
 
   const handleChange = (e) => {
     setValores({ ...valores, [e.target.name]: e.target.value });
@@ -45,7 +43,7 @@ export function FormularioLogin() {
         setErrorLogin('Correo o contraseña incorrectos.');
         return;
       }
-      iniciarSesion(usuario);
+      onIniciarSesion(usuario);
       setExito(true);
       setValores(valoresIniciales);
       navigate(usuario.esAdmin ? '/admin' : '/');

@@ -1,19 +1,16 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
-import { SesionProvider } from '../../../context/SesionProvider';
 import { registrarUsuario } from '../../../data/usuariosData';
 import { FormularioLogin } from '../../../components/organisms/FormularioLogin';
 
-const renderFormulario = () =>
+const renderFormulario = (onIniciarSesion = () => {}) =>
   render(
     <MemoryRouter>
-      <SesionProvider>
-        <Routes>
-          <Route path="/" element={<FormularioLogin />} />
-          <Route path="/admin" element={<p>Pantalla admin</p>} />
-        </Routes>
-      </SesionProvider>
+      <Routes>
+        <Route path="/" element={<FormularioLogin onIniciarSesion={onIniciarSesion} />} />
+        <Route path="/admin" element={<p>Pantalla admin</p>} />
+      </Routes>
     </MemoryRouter>
   );
 
@@ -51,18 +48,20 @@ describe('FormularioLogin Component', () => {
   });
 
   it('muestra error si el usuario no existe o la contraseña es incorrecta', () => {
-    renderFormulario();
+    const onIniciarSesion = jasmine.createSpy('onIniciarSesion');
+    renderFormulario(onIniciarSesion);
     llenar('juan@gmail.com', 'Equivocada1!');
     expect(screen.getByText('Correo o contraseña incorrectos.')).toBeTruthy();
-    expect(localStorage.getItem('sesion')).toBeNull();
+    expect(onIniciarSesion).not.toHaveBeenCalled();
   });
 
   it('inicia sesion con un usuario registrado y limpia el formulario', () => {
-    renderFormulario();
+    const onIniciarSesion = jasmine.createSpy('onIniciarSesion');
+    renderFormulario(onIniciarSesion);
     llenar('juan@gmail.com', 'Clave123!');
     expect(screen.getByText('¡Sesión iniciada con éxito!')).toBeTruthy();
     expect(screen.getByLabelText('Correo electrónico').value).toBe('');
-    expect(localStorage.getItem('sesion')).not.toBeNull();
+    expect(onIniciarSesion).toHaveBeenCalledWith({ nombre: 'Juan', correo: 'juan@gmail.com', esAdmin: false });
   });
 
   it('rechaza al admin con una contraseña incorrecta', () => {

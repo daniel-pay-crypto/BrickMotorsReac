@@ -30,4 +30,15 @@ describe('PanelAdmin Component', () => {
     expect(screen.getByText('Usuarios')).toBeTruthy();
     expect(screen.queryByText('Productos')).toBeNull();
   });
+
+  it('avisa al cerrar sesion', () => {
+    const onCerrarSesion = jasmine.createSpy('onCerrarSesion');
+    render(
+      <MemoryRouter>
+        <PanelAdmin onCerrarSesion={onCerrarSesion} />
+      </MemoryRouter>
+    );
+    fireEvent.click(screen.getByText('🚪 Cerrar sesión'));
+    expect(onCerrarSesion).toHaveBeenCalled();
+  });
 });

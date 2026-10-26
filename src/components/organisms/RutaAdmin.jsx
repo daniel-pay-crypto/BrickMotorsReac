@@ -1,10 +1,7 @@
 import { Link, Navigate } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
-import { useSesion } from '../../context/SesionContext';
 
-export function RutaAdmin({ children }) {
-  const { usuario } = useSesion();
-
+export function RutaAdmin({ usuario = null, children }) {
   if (!usuario) {
     return <Navigate to="/login" replace />;
   }

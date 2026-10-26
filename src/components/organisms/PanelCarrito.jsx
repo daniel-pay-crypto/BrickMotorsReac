@@ -1,27 +1,24 @@
 import './PanelCarrito.css';
 import Button from '../atoms/Button.jsx';
 import { ItemCarrito } from '../molecules/ItemCarrito';
-import { useCarrito } from '../../context/CarritoContext';
 
-export function PanelCarrito() {
-  const {
-    items,
-    panelAbierto,
-    cantidadTotal,
-    total,
-    cambiarCantidad,
-    aumentar,
-    reducir,
-    eliminar,
-    vaciar,
-    cerrarPanel,
-  } = useCarrito();
-
+export function PanelCarrito({
+  abierto = false,
+  items = [],
+  totalItems = 0,
+  totalPrecio = 0,
+  onCerrar = () => {},
+  onCambiarCantidad = () => {},
+  onAumentar = () => {},
+  onReducir = () => {},
+  onEliminar = () => {},
+  onVaciar = () => {},
+}) {
   return (
-    <aside className={`panel-carrito ${panelAbierto ? 'activo' : ''}`} aria-label="Carrito de compras">
+    <aside className={`panel-carrito ${abierto ? 'activo' : ''}`} aria-label="Carrito de compras">
       <div className="carrito-header">
-        <h3>Mi carrito ({cantidadTotal})</h3>
-        <button className="btn-cerrar-carrito" onClick={cerrarPanel} aria-label="Cerrar carrito">
+        <h3>Mi carrito ({totalItems})</h3>
+        <button className="btn-cerrar-carrito" onClick={onCerrar} aria-label="Cerrar carrito">
           X
         </button>
       </div>
@@ -33,18 +30,18 @@ export function PanelCarrito() {
             <ItemCarrito
               key={item.id}
               item={item}
-              onCambiarCantidad={(cantidad) => cambiarCantidad(item.id, cantidad)}
-              onAumentar={() => aumentar(item.id)}
-              onReducir={() => reducir(item.id)}
-              onEliminar={() => eliminar(item.id)}
+              onCambiarCantidad={(cantidad) => onCambiarCantidad(item.id, cantidad)}
+              onAumentar={() => onAumentar(item.id)}
+              onReducir={() => onReducir(item.id)}
+              onEliminar={() => onEliminar(item.id)}
             />
           ))
         )}
       </div>
       <div className="carrito-totales">
-        <p>Unidades: {cantidadTotal}</p>
-        <p>Total: ${total.toLocaleString('es-CL')}</p>
-        <Button variant="danger" onClick={vaciar} disabled={items.length === 0}>
+        <p>Unidades: {totalItems}</p>
+        <p>Total: ${totalPrecio.toLocaleString('es-CL')}</p>
+        <Button variant="danger" onClick={onVaciar} disabled={items.length === 0}>
           Vaciar carrito
         </Button>
       </div>
