@@ -10,6 +10,7 @@ export function TarjetaProducto({ lego, onAgregar = () => {} }) {
       {tieneDescuento && <span className="etiqueta-descuento">-{lego.descuento}%</span>}
       <img src={lego.imagen} alt={lego.nombre} />
       <h3>{lego.nombre}</h3>
+      {lego.descripcion && <p className="descripcion">{lego.descripcion}</p>}
       {tieneDescuento && (
         <p className="precio-original">${lego.precio.toLocaleString('es-CL')}</p>
       )}

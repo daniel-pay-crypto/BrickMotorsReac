@@ -4,7 +4,13 @@ import { Container, Row, Col, Card, Alert } from 'react-bootstrap';
 import Text from '../atoms/Text.jsx';
 import Button from '../atoms/Button.jsx';
 import { FormField } from '../molecules/FormField';
-import { estaVacio, esGmailValido, esNombreValido, esContrasenaValida } from '../../data/Validaciones.js';
+import {
+  estaVacio,
+  esGmailValido,
+  esNombreValido,
+  esContrasenaValida,
+  MENSAJE_NOMBRE_INVALIDO,
+} from '../../data/Validaciones.js';
 import { registrarUsuario } from '../../data/usuariosData';
 
 const valoresIniciales = { nombre: '', correo: '', contrasena: '' };
@@ -23,7 +29,7 @@ export function FormularioRegistro() {
     if (estaVacio(valores.nombre)) {
       nuevos.nombre = 'El nombre no puede estar vacío.';
     } else if (!esNombreValido(valores.nombre)) {
-      nuevos.nombre = 'Ingresa un nombre válido: solo letras y sin repetir una letra 3 veces seguidas.';
+      nuevos.nombre = MENSAJE_NOMBRE_INVALIDO;
     }
     if (estaVacio(valores.correo) || !esGmailValido(valores.correo)) {
       nuevos.correo = 'Ingresa un correo válido de @gmail.com.';
