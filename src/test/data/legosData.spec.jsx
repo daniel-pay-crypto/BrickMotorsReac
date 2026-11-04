@@ -24,4 +24,13 @@ describe('legosData', () => {
     expect(legos.find((l) => l.id === 1).stock).toBe(99);
     expect(legos.find((l) => l.id === 2).stock).toBe(2);
   });
+
+  it('todos los productos iniciales tienen descripcion', () => {
+    expect(getLegos().every((lego) => lego.descripcion.length > 0)).toBe(true);
+  });
+
+  it('completa la descripcion de productos guardados antes de que existiera', () => {
+    localStorage.setItem('legos', JSON.stringify([{ id: 1, codigo: 'ATST-001', nombre: 'Viejo', precio: 150000, stock: 1 }]));
+    expect(getLegos()[0].descripcion.length).toBeGreaterThan(0);
+  });
 });

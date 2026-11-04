@@ -28,7 +28,7 @@ describe('AdminProductos Component', () => {
     fireEvent.click(screen.getByText('+ Nuevo producto'));
     fireEvent.change(screen.getByLabelText('Código'), { target: { value: 'LEGO-001' } });
     fireEvent.change(screen.getByLabelText('Nombre'), { target: { value: 'Lego Nuevo' } });
-    fireEvent.change(screen.getByLabelText('Precio'), { target: { value: '2500' } });
+    fireEvent.change(screen.getByLabelText('Precio'), { target: { value: '25000' } });
     fireEvent.change(screen.getByLabelText('Stock'), { target: { value: '4' } });
     fireEvent.change(screen.getByLabelText('Categoría'), { target: { value: 'Technic' } });
     fireEvent.click(screen.getByText('Guardar producto'));
@@ -53,12 +53,12 @@ describe('AdminProductos Component', () => {
     fireEvent.click(screen.getByText('+ Nuevo producto'));
     fireEvent.change(screen.getByLabelText('Código'), { target: { value: 'atst-001' } });
     fireEvent.change(screen.getByLabelText('Nombre'), { target: { value: 'Otro' } });
-    fireEvent.change(screen.getByLabelText('Precio'), { target: { value: '0' } });
+    fireEvent.change(screen.getByLabelText('Precio'), { target: { value: '9999' } });
     fireEvent.change(screen.getByLabelText('Stock'), { target: { value: '4' } });
     fireEvent.change(screen.getByLabelText('Categoría'), { target: { value: 'Technic' } });
     fireEvent.click(screen.getByText('Guardar producto'));
     expect(screen.getByText('Ese código ya existe.')).toBeTruthy();
-    expect(screen.getByText('El precio debe ser mayor a 0.')).toBeTruthy();
+    expect(screen.getByText('El precio mínimo es $10.000 CLP.')).toBeTruthy();
   });
 
   it('guarda el producto nuevo para que aparezca en la tienda', () => {
@@ -66,7 +66,7 @@ describe('AdminProductos Component', () => {
     fireEvent.click(screen.getByText('+ Nuevo producto'));
     fireEvent.change(screen.getByLabelText('Código'), { target: { value: 'LEGO-777' } });
     fireEvent.change(screen.getByLabelText('Nombre'), { target: { value: 'Lego Tienda' } });
-    fireEvent.change(screen.getByLabelText('Precio'), { target: { value: '2500' } });
+    fireEvent.change(screen.getByLabelText('Precio'), { target: { value: '25000' } });
     fireEvent.change(screen.getByLabelText('Stock'), { target: { value: '4' } });
     fireEvent.change(screen.getByLabelText('Categoría'), { target: { value: 'Technic' } });
     fireEvent.click(screen.getByText('Guardar producto'));
@@ -92,5 +92,51 @@ describe('AdminProductos Component', () => {
     fireEvent.change(screen.getByLabelText('Descuento % (opcional)'), { target: { value: '95' } });
     fireEvent.click(screen.getByText('Guardar producto'));
     expect(screen.getByText('El descuento debe ser un número entero entre 0 y 90.')).toBeTruthy();
+  });
+
+  it('acepta un precio de exactamente 10.000', () => {
+    render(<AdminProductos />);
+    fireEvent.click(screen.getByText('+ Nuevo producto'));
+    fireEvent.change(screen.getByLabelText('Código'), { target: { value: 'LEGO-100' } });
+    fireEvent.change(screen.getByLabelText('Nombre'), { target: { value: 'Lego Minimo' } });
+    fireEvent.change(screen.getByLabelText('Precio'), { target: { value: '10000' } });
+    fireEvent.change(screen.getByLabelText('Stock'), { target: { value: '4' } });
+    fireEvent.change(screen.getByLabelText('Categoría'), { target: { value: 'Technic' } });
+    fireEvent.click(screen.getByText('Guardar producto'));
+    expect(screen.queryByText('El precio mínimo es $10.000 CLP.')).toBeNull();
+    expect(screen.getByText('Lego Minimo')).toBeTruthy();
+  });
+
+  it('guarda la descripcion del producto nuevo', () => {
+    render(<AdminProductos />);
+    fireEvent.click(screen.getByText('+ Nuevo producto'));
+    fireEvent.change(screen.getByLabelText('Código'), { target: { value: 'LEGO-200' } });
+    fireEvent.change(screen.getByLabelText('Nombre'), { target: { value: 'Lego Descrito' } });
+    fireEvent.change(screen.getByLabelText('Precio'), { target: { value: '25000' } });
+    fireEvent.change(screen.getByLabelText('Stock'), { target: { value: '4' } });
+    fireEvent.change(screen.getByLabelText('Categoría'), { target: { value: 'Technic' } });
+    fireEvent.change(screen.getByLabelText('Descripción (opcional)'), { target: { value: 'Set con motor y chasis.' } });
+    fireEvent.click(screen.getByText('Guardar producto'));
+    const nuevo = JSON.parse(localStorage.getItem('legos')).find((p) => p.codigo === 'LEGO-200');
+    expect(nuevo.descripcion).toBe('Set con motor y chasis.');
+  });
+
+  it('muestra error si la descripcion pasa de 500 caracteres', () => {
+    render(<AdminProductos />);
+    fireEvent.click(screen.getAllByText('Editar')[0]);
+    fireEvent.change(screen.getByLabelText('Descripción (opcional)'), { target: { value: 'a'.repeat(501) } });
+    fireEvent.click(screen.getByText('Guardar producto'));
+    expect(screen.getByText('La descripción no puede superar los 500 caracteres.')).toBeTruthy();
+  });
+
+  it('cada casilla del formulario muestra un ejemplo de lo que va', () => {
+    render(<AdminProductos />);
+    fireEvent.click(screen.getByText('+ Nuevo producto'));
+    expect(screen.getByPlaceholderText('Ej. ATAT-001')).toBeTruthy();
+    expect(screen.getByPlaceholderText('Ej. AT-AT Supremacy')).toBeTruthy();
+    expect(screen.getByPlaceholderText('Ej. 25000 (mínimo 10000)')).toBeTruthy();
+    expect(screen.getByPlaceholderText('Ej. 10')).toBeTruthy();
+    expect(screen.getByText('-- Selecciona una categoría (Ej. Technic) --')).toBeTruthy();
+    expect(screen.getByPlaceholderText('Ej. 15')).toBeTruthy();
   });
 });

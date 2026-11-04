@@ -13,14 +13,30 @@ export const esGmailValido = (valor) => {
   return usuario.length >= 3 && /[a-z]/i.test(usuario);
 };
 
+export const MENSAJE_NOMBRE_INVALIDO =
+  'Ingresa un nombre válido: solo letras, sin repetir una letra 3 veces seguidas y sin muchas consonantes juntas.';
+
+const consonantes = 'bcdfghjklmnñpqrstvwxz';
+const vocales = 'aeiouáéíóúüy';
+
 export const tieneLetrasRepetidas = (valor) => /(.)\1\1/i.test(valor);
+
+export const tieneDemasiadasConsonantes = (valor) =>
+  new RegExp(`[${consonantes}]{5,}`, 'i').test(valor);
+
+export const tienePalabraSinVocales = (valor) =>
+  valor
+    .split(/[ '-]+/)
+    .some((palabra) => palabra.length >= 2 && !new RegExp(`[${vocales}]`, 'i').test(palabra));
 
 export const esNombreValido = (valor) => {
   const nombre = valor.trim();
   return (
     nombre.length >= 2 &&
     patronNombre.test(nombre) &&
-    !tieneLetrasRepetidas(nombre)
+    !tieneLetrasRepetidas(nombre) &&
+    !tieneDemasiadasConsonantes(nombre) &&
+    !tienePalabraSinVocales(nombre)
   );
 };
 

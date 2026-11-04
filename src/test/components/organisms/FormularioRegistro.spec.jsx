@@ -3,6 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { FormularioRegistro } from '../../../components/organisms/FormularioRegistro';
 import { buscarUsuario } from '../../../data/usuariosData';
+import { MENSAJE_NOMBRE_INVALIDO } from '../../../data/Validaciones';
 
 const mensajeContrasena =
   'La contraseña debe tener mínimo 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial.';
@@ -57,7 +58,14 @@ describe('FormularioRegistro Component', () => {
   it('muestra error si el nombre repite una letra 3 veces seguidas', () => {
     renderFormulario();
     llenar('xxx', 'juan@gmail.com', 'Clave123!');
-    expect(screen.getByText('Ingresa un nombre válido: solo letras y sin repetir una letra 3 veces seguidas.')).toBeTruthy();
+    expect(screen.getByText(MENSAJE_NOMBRE_INVALIDO)).toBeTruthy();
+    expect(screen.queryByText('¡Cuenta creada con éxito!')).toBeNull();
+  });
+
+  it('muestra error si el nombre tiene demasiadas consonantes juntas', () => {
+    renderFormulario();
+    llenar('Jhfdsk', 'juan@gmail.com', 'Clave123!');
+    expect(screen.getByText(MENSAJE_NOMBRE_INVALIDO)).toBeTruthy();
     expect(screen.queryByText('¡Cuenta creada con éxito!')).toBeNull();
   });
 

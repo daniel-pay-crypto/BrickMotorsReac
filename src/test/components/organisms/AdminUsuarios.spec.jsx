@@ -1,6 +1,8 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { AdminUsuarios } from '../../../components/organisms/AdminUsuarios';
+import { registrarUsuario } from '../../../data/usuariosData';
+import { MENSAJE_NOMBRE_INVALIDO } from '../../../data/Validaciones';
 
 describe('AdminUsuarios Component', () => {
   beforeEach(() => {
@@ -52,7 +54,7 @@ describe('AdminUsuarios Component', () => {
     fireEvent.change(screen.getByLabelText('Correo'), { target: { value: 'ana@gmail.com' } });
     fireEvent.change(screen.getByLabelText('Tipo de usuario'), { target: { value: 'Vendedor' } });
     fireEvent.click(screen.getByText('Guardar usuario'));
-    expect(screen.getByText('Ingresa un nombre válido: solo letras y sin repetir una letra 3 veces seguidas.')).toBeTruthy();
+    expect(screen.getByText(MENSAJE_NOMBRE_INVALIDO)).toBeTruthy();
     expect(screen.queryByText('ana@gmail.com')).toBeNull();
   });
 
@@ -65,5 +67,38 @@ describe('AdminUsuarios Component', () => {
     fireEvent.click(screen.getByText('Guardar usuario'));
     const guardados = JSON.parse(localStorage.getItem('personal'));
     expect(guardados.some((p) => p.correo === 'ana@gmail.com')).toBe(true);
+  });
+
+  it('muestra en la tabla los usuarios que se registraron en la tienda', () => {
+    registrarUsuario({ nombre: 'Pedro Soto', correo: 'pedro@gmail.com', contrasena: 'Clave123!' });
+    render(<AdminUsuarios />);
+    expect(screen.getByText('Pedro Soto')).toBeTruthy();
+    expect(screen.getByText('pedro@gmail.com')).toBeTruthy();
+    expect(screen.getByText('Cliente')).toBeTruthy();
+    expect(screen.getByText('Registro web')).toBeTruthy();
+  });
+
+  it('los usuarios registrados no tienen boton de editar', () => {
+    registrarUsuario({ nombre: 'Pedro Soto', correo: 'pedro@gmail.com', contrasena: 'Clave123!' });
+    render(<AdminUsuarios />);
+    expect(screen.getAllByText('Editar').length).toBe(1);
+  });
+
+  it('muestra error si el nombre tiene demasiadas consonantes juntas', () => {
+    render(<AdminUsuarios />);
+    fireEvent.click(screen.getByText('+ Nuevo usuario'));
+    fireEvent.change(screen.getByLabelText('Nombre'), { target: { value: 'Jhfdsk' } });
+    fireEvent.change(screen.getByLabelText('Correo'), { target: { value: 'ana@gmail.com' } });
+    fireEvent.change(screen.getByLabelText('Tipo de usuario'), { target: { value: 'Vendedor' } });
+    fireEvent.click(screen.getByText('Guardar usuario'));
+    expect(screen.getByText(MENSAJE_NOMBRE_INVALIDO)).toBeTruthy();
+  });
+
+  it('cada casilla del formulario muestra un ejemplo de lo que va', () => {
+    render(<AdminUsuarios />);
+    fireEvent.click(screen.getByText('+ Nuevo usuario'));
+    expect(screen.getByPlaceholderText('Ej. Juan Pérez')).toBeTruthy();
+    expect(screen.getByPlaceholderText('ejemplo@gmail.com')).toBeTruthy();
+    expect(screen.getByText('-- Selecciona un tipo (Ej. Vendedor) --')).toBeTruthy();
   });
 });

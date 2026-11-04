@@ -2,6 +2,8 @@ import {
   esGmailValido,
   esNombreValido,
   tieneLetrasRepetidas,
+  tieneDemasiadasConsonantes,
+  tienePalabraSinVocales,
   esContrasenaValida,
 } from '../../data/Validaciones';
 
@@ -32,6 +34,29 @@ describe('Validaciones', () => {
     expect(esNombreValido('J')).toBe(false);
     expect(esNombreValido('Juan123')).toBe(false);
     expect(esNombreValido('...')).toBe(false);
+  });
+
+  it('detecta 5 o mas consonantes seguidas', () => {
+    expect(tieneDemasiadasConsonantes('Jhfdsk')).toBe(true);
+    expect(tieneDemasiadasConsonantes('Bcdfg')).toBe(true);
+    expect(tieneDemasiadasConsonantes('Schmidt')).toBe(false);
+    expect(tieneDemasiadasConsonantes('Christian')).toBe(false);
+  });
+
+  it('detecta palabras sin ninguna vocal', () => {
+    expect(tienePalabraSinVocales('Brk')).toBe(true);
+    expect(tienePalabraSinVocales('Juan Pdr')).toBe(true);
+    expect(tienePalabraSinVocales('Lynn')).toBe(false);
+    expect(tienePalabraSinVocales('Juan Pérez')).toBe(false);
+  });
+
+  it('el nombre no puede tener muchas consonantes juntas ni palabras sin vocales', () => {
+    expect(esNombreValido('Jhfdsk')).toBe(false);
+    expect(esNombreValido('Bcdfg Lopez')).toBe(false);
+    expect(esNombreValido('Brk')).toBe(false);
+    expect(esNombreValido('Schmidt')).toBe(true);
+    expect(esNombreValido('Christian Soto')).toBe(true);
+    expect(esNombreValido('Lynn')).toBe(true);
   });
 
   it('valida la contraseña: mayuscula, minuscula, numero y caracter especial', () => {

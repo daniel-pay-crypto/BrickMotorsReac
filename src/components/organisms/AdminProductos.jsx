@@ -19,7 +19,20 @@ const categorias = ['Technic', 'Star Wars', 'MOC'];
 
 const imagenPorDefecto = '/img/legos.jpg';
 
-const valoresIniciales = { codigo: '', nombre: '', precio: '', stock: '', categoria: '', imagen: '', descuento: '' };
+const PRECIO_MINIMO = 10000;
+
+const DESCRIPCION_MAXIMA = 500;
+
+const valoresIniciales = {
+  codigo: '',
+  nombre: '',
+  precio: '',
+  stock: '',
+  categoria: '',
+  descripcion: '',
+  imagen: '',
+  descuento: '',
+};
 
 const mensajes = {
   codigo: 'El código no puede estar vacío.',
@@ -62,6 +75,7 @@ export function AdminProductos() {
       precio: String(producto.precio),
       stock: String(producto.stock),
       categoria: producto.categoria,
+      descripcion: producto.descripcion || '',
       imagen: producto.imagen || '',
       descuento: producto.descuento ? String(producto.descuento) : '',
     });
@@ -84,8 +98,11 @@ export function AdminProductos() {
     if (!nuevos.codigo && codigoRepetido) {
       nuevos.codigo = 'Ese código ya existe.';
     }
-    if (!nuevos.precio && !(Number(valores.precio) > 0)) {
-      nuevos.precio = 'El precio debe ser mayor a 0.';
+    if (!nuevos.precio && !(Number(valores.precio) >= PRECIO_MINIMO)) {
+      nuevos.precio = 'El precio mínimo es $10.000 CLP.';
+    }
+    if (valores.descripcion.trim().length > DESCRIPCION_MAXIMA) {
+      nuevos.descripcion = 'La descripción no puede superar los 500 caracteres.';
     }
     if (!nuevos.stock && !(Number.isInteger(Number(valores.stock)) && Number(valores.stock) >= 0)) {
       nuevos.stock = 'El stock debe ser un número entero, 0 o mayor.';
@@ -109,6 +126,7 @@ export function AdminProductos() {
         precio: Number(valores.precio),
         stock: Number(valores.stock),
         categoria: valores.categoria,
+        descripcion: valores.descripcion.trim(),
         imagen: valores.imagen.trim() || imagenPorDefecto,
         descuento,
         oferta: descuento > 0,
@@ -163,8 +181,9 @@ export function AdminProductos() {
             id="precio"
             name="precio"
             type="number"
-            min="0"
+            min={PRECIO_MINIMO}
             label="Precio"
+            placeholder="Ej. 25000 (mínimo 10000)"
             value={valores.precio}
             onChange={handleChange}
             error={errores.precio}
@@ -175,6 +194,7 @@ export function AdminProductos() {
             type="number"
             min="0"
             label="Stock"
+            placeholder="Ej. 10"
             value={valores.stock}
             onChange={handleChange}
             error={errores.stock}
@@ -183,11 +203,22 @@ export function AdminProductos() {
             id="categoria"
             name="categoria"
             label="Categoría"
-            placeholder="-- Selecciona una categoría --"
+            placeholder="-- Selecciona una categoría (Ej. Technic) --"
             options={categorias}
             value={valores.categoria}
             onChange={handleChange}
             error={errores.categoria}
+          />
+          <FormField
+            id="descripcion"
+            name="descripcion"
+            as="textarea"
+            rows={3}
+            label="Descripción (opcional)"
+            placeholder="Ej. Set Technic con motor y chasis reforzado, ideal para coleccionistas."
+            value={valores.descripcion}
+            onChange={handleChange}
+            error={errores.descripcion}
           />
           <FormField
             id="imagen"
@@ -204,6 +235,7 @@ export function AdminProductos() {
             min="0"
             max="90"
             label="Descuento % (opcional)"
+            placeholder="Ej. 15"
             value={valores.descuento}
             onChange={handleChange}
             error={errores.descuento}

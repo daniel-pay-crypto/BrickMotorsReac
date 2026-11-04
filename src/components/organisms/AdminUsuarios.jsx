@@ -3,8 +3,9 @@ import Button from '../atoms/Button.jsx';
 import { FormField } from '../molecules/FormField';
 import { SelectField } from '../molecules/SelectField';
 import { TablaDatos } from '../molecules/TablaDatos';
-import { estaVacio, esGmailValido, esNombreValido } from '../../data/Validaciones.js';
+import { estaVacio, esGmailValido, esNombreValido, MENSAJE_NOMBRE_INVALIDO } from '../../data/Validaciones.js';
 import { getPersonal, addPersonal, updatePersonal } from '../../data/personalData';
+import { getUsuariosRegistrados } from '../../data/usuariosData';
 
 const columnas = [
   { clave: 'nombre', titulo: 'Nombre' },
@@ -16,8 +17,19 @@ const tipos = ['Administrador', 'Vendedor', 'Cliente'];
 
 const valoresIniciales = { nombre: '', correo: '', tipo: '' };
 
+const cargarUsuarios = () => [
+  ...getPersonal(),
+  ...getUsuariosRegistrados().map((usuario) => ({
+    id: `registro-${usuario.correo}`,
+    nombre: usuario.nombre,
+    correo: usuario.correo,
+    tipo: 'Cliente',
+    registrado: true,
+  })),
+];
+
 export function AdminUsuarios() {
-  const [usuarios, setUsuarios] = useState(getPersonal());
+  const [usuarios, setUsuarios] = useState(cargarUsuarios);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [editandoId, setEditandoId] = useState(null);
   const [valores, setValores] = useState(valoresIniciales);
@@ -54,7 +66,7 @@ export function AdminUsuarios() {
     if (estaVacio(valores.nombre)) {
       nuevos.nombre = 'El nombre no puede estar vacío.';
     } else if (!esNombreValido(valores.nombre)) {
-      nuevos.nombre = 'Ingresa un nombre válido: solo letras y sin repetir una letra 3 veces seguidas.';
+      nuevos.nombre = MENSAJE_NOMBRE_INVALIDO;
     }
     if (estaVacio(valores.correo) || !esGmailValido(valores.correo)) {
       nuevos.correo = 'Ingresa un correo válido de @gmail.com.';
@@ -74,7 +86,7 @@ export function AdminUsuarios() {
       } else {
         updatePersonal(editandoId, datos);
       }
-      setUsuarios(getPersonal());
+      setUsuarios(cargarUsuarios());
       cerrarFormulario();
     }
   };
@@ -88,11 +100,15 @@ export function AdminUsuarios() {
       <TablaDatos
         columnas={columnas}
         filas={usuarios}
-        renderAcciones={(usuario) => (
-          <Button variant="warning" onClick={() => abrirEditar(usuario)}>
-            Editar
-          </Button>
-        )}
+        renderAcciones={(usuario) =>
+          usuario.registrado ? (
+            <span className="text-muted">Registro web</span>
+          ) : (
+            <Button variant="warning" onClick={() => abrirEditar(usuario)}>
+              Editar
+            </Button>
+          )
+        }
       />
       {mostrarFormulario && (
         <form onSubmit={handleSubmit} noValidate className="border rounded p-3 bg-white">
@@ -120,7 +136,7 @@ export function AdminUsuarios() {
             id="tipo"
             name="tipo"
             label="Tipo de usuario"
-            placeholder="-- Selecciona un tipo --"
+            placeholder="-- Selecciona un tipo (Ej. Vendedor) --"
             options={tipos}
             value={valores.tipo}
             onChange={handleChange}
