@@ -33,4 +33,9 @@ describe('TarjetaProducto Component', () => {
     expect(screen.getByText('$150.000')).toBeTruthy();
     expect(screen.getByText('$120.000')).toBeTruthy();
   });
+
+  it('muestra la descripcion del producto', () => {
+    render(<TarjetaProducto lego={{ ...lego, descripcion: 'Set para exhibir en tu vitrina.' }} />);
+    expect(screen.getByText('Set para exhibir en tu vitrina.')).toBeTruthy();
+  });
 });
