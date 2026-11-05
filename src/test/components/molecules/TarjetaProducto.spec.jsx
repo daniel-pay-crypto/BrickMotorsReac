@@ -1,8 +1,10 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { TarjetaProducto } from '../../../components/molecules/TarjetaProducto';
 
 const lego = { id: 1, nombre: 'AT-ST', imagen: '/a.png', precio: 150000, stock: 5 };
+
+const legoConDescripcion = { ...lego, descripcion: 'Set para exhibir en tu vitrina.' };
 
 describe('TarjetaProducto Component', () => {
   it('muestra el nombre, la imagen y el precio', () => {
@@ -34,8 +36,37 @@ describe('TarjetaProducto Component', () => {
     expect(screen.getByText('$120.000')).toBeTruthy();
   });
 
-  it('muestra la descripcion del producto', () => {
-    render(<TarjetaProducto lego={{ ...lego, descripcion: 'Set para exhibir en tu vitrina.' }} />);
-    expect(screen.getByText('Set para exhibir en tu vitrina.')).toBeTruthy();
+  it('no muestra la descripcion hasta que se hace click en el producto', () => {
+    render(<TarjetaProducto lego={legoConDescripcion} />);
+    expect(screen.queryByText(legoConDescripcion.descripcion)).toBeNull();
+  });
+
+  it('muestra la descripcion y el stock al hacer click en Ver descripcion', () => {
+    render(<TarjetaProducto lego={legoConDescripcion} />);
+    fireEvent.click(screen.getByText('Ver descripción'));
+    expect(screen.getByText(legoConDescripcion.descripcion)).toBeTruthy();
+    expect(screen.getByText('Stock disponible: 5')).toBeTruthy();
+  });
+
+  it('tambien abre el detalle al hacer click en la imagen del producto', () => {
+    render(<TarjetaProducto lego={legoConDescripcion} />);
+    fireEvent.click(screen.getByAltText('AT-ST'));
+    expect(screen.getByText(legoConDescripcion.descripcion)).toBeTruthy();
+  });
+
+  it('avisa cuando el producto no tiene descripcion', () => {
+    render(<TarjetaProducto lego={lego} />);
+    fireEvent.click(screen.getByText('Ver descripción'));
+    expect(screen.getByText('Este producto todavía no tiene descripción.')).toBeTruthy();
+  });
+
+  it('agregar desde el detalle llama a onAgregar y cierra el detalle', async () => {
+    const onAgregar = jasmine.createSpy('onAgregar');
+    render(<TarjetaProducto lego={legoConDescripcion} onAgregar={onAgregar} />);
+    fireEvent.click(screen.getByText('Ver descripción'));
+    const botones = screen.getAllByText('Agregar al Carrito');
+    fireEvent.click(botones[botones.length - 1]);
+    expect(onAgregar).toHaveBeenCalledWith(legoConDescripcion);
+    await waitFor(() => expect(screen.queryByText(legoConDescripcion.descripcion)).toBeNull());
   });
 });

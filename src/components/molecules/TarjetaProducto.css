@@ -53,12 +53,55 @@
     cursor: not-allowed;
 }
 
-.tarjeta-producto .descripcion {
-    color: #dddddd;
-    font-size: 14px;
-    line-height: 1.4;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+.tarjeta-producto .clicable {
+    cursor: pointer;
+}
+
+.btn-ver-detalle {
+    background: none;
+    border: none;
+    color: #ffcf00;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+    margin-bottom: 10px;
+}
+
+.modal-detalle-producto {
+    color: #212529;
+    text-align: center;
+}
+
+.modal-detalle-producto img {
+    max-height: 220px;
+    object-fit: contain;
+    margin: 0 auto 16px;
+}
+
+.modal-detalle-producto .descripcion-detalle {
+    line-height: 1.5;
+}
+
+.modal-detalle-producto .precio-detalle {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.modal-detalle-producto .descuento-detalle {
+    color: #e3000b;
+    font-size: 16px;
+}
+
+.btn-cerrar-detalle {
+    background-color: #6c757d;
+    color: #ffffff;
+    border: none;
+    padding: 10px 15px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.btn-agregar-detalle {
+    width: auto;
 }
