@@ -69,4 +69,14 @@ describe('TarjetaProducto Component', () => {
     expect(onAgregar).toHaveBeenCalledWith(legoConDescripcion);
     await waitFor(() => expect(screen.queryByText(legoConDescripcion.descripcion)).toBeNull());
   });
+
+  it('muestra el aviso de ultimas unidades cuando quedan pocas', () => {
+    render(<TarjetaProducto lego={{ ...lego, stock: 2 }} />);
+    expect(screen.getByText('¡Últimas unidades!')).toBeTruthy();
+  });
+
+  it('no muestra el aviso de ultimas unidades cuando hay stock suficiente', () => {
+    render(<TarjetaProducto lego={lego} />);
+    expect(screen.queryByText('¡Últimas unidades!')).toBeNull();
+  });
 });

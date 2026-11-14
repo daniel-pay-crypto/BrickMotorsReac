@@ -1,12 +1,16 @@
 import { useState } from 'react';
 import { Modal } from 'react-bootstrap';
+import Etiqueta from '../atoms/Etiqueta';
 import './TarjetaProducto.css';
 import { calcularPrecioFinal } from '../../data/legosData';
+
+const UNIDADES_POCAS = 2;
 
 export function TarjetaProducto({ lego, onAgregar = () => {} }) {
   const [verDetalle, setVerDetalle] = useState(false);
   const tieneDescuento = lego.descuento > 0;
   const sinStock = lego.stock < 1;
+  const pocasUnidades = lego.stock > 0 && lego.stock <= UNIDADES_POCAS;
   const precioFinal = calcularPrecioFinal(lego.precio, lego.descuento).toLocaleString('es-CL');
 
   const abrirDetalle = () => setVerDetalle(true);
@@ -19,9 +23,16 @@ export function TarjetaProducto({ lego, onAgregar = () => {} }) {
 
   return (
     <div className="tarjeta-producto">
-      {tieneDescuento && <span className="etiqueta-descuento">-{lego.descuento}%</span>}
-      <img src={lego.imagen} alt={lego.nombre} className="clicable" onClick={abrirDetalle} />
-      <h3 className="clicable" onClick={abrirDetalle}>{lego.nombre}</h3>
+      {(tieneDescuento || pocasUnidades) && (
+        <div className="etiquetas-tarjeta">
+          {tieneDescuento && <Etiqueta variante="descuento">-{lego.descuento}%</Etiqueta>}
+          {pocasUnidades && <Etiqueta variante="aviso">¡Últimas unidades!</Etiqueta>}
+        </div>
+      )}
+      <div className="tarjeta-producto__imagen">
+        <img src={lego.imagen} alt={lego.nombre} className="clicable" onClick={abrirDetalle} />
+      </div>
+      <h3 className="clicable" title={lego.nombre} onClick={abrirDetalle}>{lego.nombre}</h3>
       <button className="btn-ver-detalle" onClick={abrirDetalle}>Ver descripción</button>
       {tieneDescuento && (
         <p className="precio-original">${lego.precio.toLocaleString('es-CL')}</p>

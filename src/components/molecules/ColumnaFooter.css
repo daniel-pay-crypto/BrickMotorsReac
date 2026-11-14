@@ -1,0 +1,11 @@
+.columna-footer {
+  text-align: left;
+}
+
+.columna-footer__titulo {
+  margin-bottom: 14px;
+  color: var(--brick-amarillo, #ffcf00);
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}

@@ -1,0 +1,36 @@
+.tarjeta-beneficio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  height: 100%;
+  padding: 28px 20px;
+  background-color: rgba(0, 0, 0, 0.72);
+  border: 2px solid rgba(255, 207, 0, 0.35);
+  border-radius: var(--brick-radio, 12px);
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tarjeta-beneficio:hover {
+  transform: translateY(-8px);
+  border-color: var(--brick-amarillo, #ffcf00);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5), 0 0 18px rgba(255, 207, 0, 0.25);
+}
+
+.tarjeta-beneficio:hover .icono-circular {
+  transform: rotate(-8deg) scale(1.1);
+  box-shadow: 0 0 0 8px rgba(255, 207, 0, 0.3);
+}
+
+.tarjeta-beneficio__titulo {
+  margin: 0;
+  color: var(--brick-amarillo, #ffcf00);
+  font-size: 1.25rem;
+}
+
+.tarjeta-beneficio__texto {
+  margin: 0;
+  color: var(--brick-texto-suave, #d1d5db);
+  font-size: 0.98rem;
+  line-height: 1.5;
+}

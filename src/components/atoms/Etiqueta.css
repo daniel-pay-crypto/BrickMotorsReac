@@ -1,0 +1,27 @@
+.etiqueta-pildora {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  line-height: 1.3;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.etiqueta-pildora--novedad {
+  background-color: var(--brick-blanco, #ffffff);
+  color: var(--brick-negro, #000000);
+}
+
+.etiqueta-pildora--exclusivo,
+.etiqueta-pildora--descuento {
+  background-color: var(--brick-rojo, #e3000b);
+  color: var(--brick-blanco, #ffffff);
+}
+
+.etiqueta-pildora--aviso {
+  background-color: var(--brick-amarillo, #ffcf00);
+  color: var(--brick-negro, #000000);
+}

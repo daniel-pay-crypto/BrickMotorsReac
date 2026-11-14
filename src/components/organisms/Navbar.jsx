@@ -1,6 +1,7 @@
 import './Navbar.css';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import Logo from '../atoms/Logo';
 
 export function Navbar({
   usuario = null,
@@ -26,6 +27,7 @@ export function Navbar({
 
   return (
     <header className="barra-navegacion">
+      <Logo />
       <button className="btn-hamburguesa" onClick={toggleMenu} aria-label="Abrir menú">
         ☰
       </button>

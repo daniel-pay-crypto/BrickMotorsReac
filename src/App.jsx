@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
+import { AnuncioSuperior } from './components/organisms/AnuncioSuperior';
 import { Navbar } from './components/organisms/Navbar';
 import { Footer } from './components/organisms/Footer';
 import { PanelCarrito } from './components/organisms/PanelCarrito';
@@ -24,6 +25,7 @@ function App() {
 
   return (
     <>
+      <AnuncioSuperior />
       <Navbar
         usuario={sesion.usuario}
         onCerrarSesion={sesion.cerrarSesion}

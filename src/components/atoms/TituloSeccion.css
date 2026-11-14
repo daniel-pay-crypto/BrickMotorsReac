@@ -1,0 +1,30 @@
+.titulo-seccion {
+  margin: 0 auto 30px;
+  text-align: center;
+}
+
+.titulo-seccion__texto {
+  margin: 0;
+  color: var(--brick-amarillo, #ffcf00);
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.6);
+  text-transform: uppercase;
+}
+
+.titulo-seccion__texto::after {
+  content: '';
+  display: block;
+  width: 90px;
+  height: 5px;
+  margin: 12px auto 0;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--brick-amarillo, #ffcf00) 0 60%, var(--brick-rojo, #e3000b) 60% 100%);
+}
+
+.titulo-seccion__subtitulo {
+  max-width: 620px;
+  margin: 14px auto 0;
+  color: var(--brick-texto-suave, #d1d5db);
+  font-size: 1.05rem;
+}

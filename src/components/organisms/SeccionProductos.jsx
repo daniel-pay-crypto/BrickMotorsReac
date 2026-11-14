@@ -1,15 +1,19 @@
 import { Container, Row, Col } from 'react-bootstrap';
+import TituloSeccion from '../atoms/TituloSeccion';
 import { getLegos } from '../../data/legosData';
 import { TarjetaProducto } from '../molecules/TarjetaProducto';
+import './SeccionProductos.css';
 
 export function SeccionProductos({ onAgregar }) {
   const listaDeLegos = getLegos();
 
   return (
     <Container id="productos" className="seccion-productos">
-      <h2>Productos Destacados</h2>
+      <TituloSeccion subtitulo="Elige tu próximo set y súmalo a tu colección.">
+        Productos Destacados
+      </TituloSeccion>
 
-      <Row className="g-3 mt-2 justify-content-center">
+      <Row className="g-4 mt-1 justify-content-center">
         {listaDeLegos.map((lego) => (
           <Col key={lego.id} xs={12} sm={6} lg={4} xl={3} className="d-flex justify-content-center">
             <TarjetaProducto lego={lego} onAgregar={onAgregar} />

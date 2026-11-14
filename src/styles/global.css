@@ -8,6 +8,7 @@
   --brick-texto-suave: #d1d5db;
   --brick-radio: 12px;
   --brick-transicion: 0.3s ease;
+  --brick-fuente-titulos: 'Fredoka', 'Arial Rounded MT Bold', Arial, sans-serif;
 }
 
 /*Reset */
@@ -48,4 +49,31 @@ img {
 
 a {
   text-decoration: none;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--brick-fuente-titulos);
+}
+
+::selection {
+  background-color: var(--brick-amarillo);
+  color: var(--brick-negro);
+}
+
+:focus-visible {
+  outline: 3px solid var(--brick-amarillo);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }

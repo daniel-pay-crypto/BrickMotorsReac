@@ -9,6 +9,8 @@
     padding: 15px 30px;
     border-bottom: 4px solid #000000;
     width: 100%;
+    gap: 16px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
 }
 
 .btn-hamburguesa {
@@ -37,8 +39,30 @@
     transition: color 0.3s ease;
 }
 
+.menu-enlaces a {
+    position: relative;
+}
+
+.menu-enlaces a::after {
+    content: '';
+    position: absolute;
+    right: 10px;
+    bottom: 4px;
+    left: 10px;
+    height: 3px;
+    border-radius: 2px;
+    background-color: #e3000b;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+}
+
 .menu-enlaces a:hover {
     color: #e3000b;
+}
+
+.menu-enlaces a:hover::after {
+    transform: scaleX(1);
 }
 
 .nav-derecha {
@@ -128,6 +152,10 @@
     }
     .btn-hamburguesa {
         display: block;
+        order: -1;
+    }
+    .menu-enlaces a::after {
+        display: none;
     }
     .menu-enlaces {
         position: fixed;
@@ -158,6 +186,9 @@
 }
 
 @media (max-width: 480px) {
+    .barra-navegacion .logo-texto {
+        display: none;
+    }
     .botones-sesion {
         flex-direction: column;
         gap: 5px;

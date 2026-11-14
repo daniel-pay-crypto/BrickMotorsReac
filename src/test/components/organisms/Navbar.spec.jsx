@@ -60,4 +60,9 @@ describe('Navbar Component', () => {
     fireEvent.click(screen.getByLabelText('Abrir carrito'));
     expect(onAbrirCarrito).toHaveBeenCalled();
   });
+
+  it('muestra el logo de la tienda con enlace al inicio', () => {
+    renderNavbar();
+    expect(screen.getByLabelText('Brick Motors, ir al inicio').getAttribute('href')).toBe('/');
+  });
 });

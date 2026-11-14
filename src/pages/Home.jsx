@@ -2,6 +2,8 @@ import './Home.css';
 import { HeroBanner } from '../components/organisms/HeroBanner';
 import { Link } from 'react-router-dom';
 import { SeccionProductos } from '../components/organisms/SeccionProductos';
+import { SeccionBeneficios } from '../components/organisms/SeccionBeneficios';
+import Revelar from '../components/atoms/Revelar';
 
 export default function Home({ agregarAlCarrito }) {
   return (
@@ -22,19 +24,23 @@ export default function Home({ agregarAlCarrito }) {
           </div>
         </div>
 
+        <SeccionBeneficios />
+
         <div className="seccion-cherno">
           <h2 className="titulo-cherno">¡Dale un vistazo a nuestro próximo proyecto!</h2>
-          <div className="contenedor-cherno">
-            <div className="cherno-imagen">
-              <Link to="/cherno">
-                <img src="/img/chernolink.jpg" alt="Proyecto Cherno Alpha" />
-              </Link>
+          <Revelar>
+            <div className="contenedor-cherno">
+              <div className="cherno-imagen">
+                <Link to="/cherno">
+                  <img src="/img/chernolink.jpg" alt="Proyecto Cherno Alpha" />
+                </Link>
+              </div>
+              <div className="cherno-texto">
+                <p>El nuevo proyecto ambicioso de Brick Motors ya esta en camino. 5,000 piezas de algo... increible.</p>
+                <p>Pura Ingeniería Technic al mas alto nivel.</p>
+              </div>
             </div>
-            <div className="cherno-texto">
-              <p>El nuevo proyecto ambicioso de Brick Motors ya esta en camino. 5,000 piezas de algo... increible.</p>
-              <p>Pura Ingeniería Technic al mas alto nivel.</p>
-            </div>
-          </div>
+          </Revelar>
         </div>
 
         <div className="seccion-animada">

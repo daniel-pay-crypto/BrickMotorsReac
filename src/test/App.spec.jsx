@@ -35,4 +35,11 @@ describe('App', () => {
     fireEvent.click(screen.getAllByText('Agregar al Carrito')[0]);
     expect(screen.getByText('Mi carrito (1)')).toBeTruthy();
   });
+
+  it('muestra el anuncio superior y se puede cerrar', () => {
+    renderApp('/');
+    expect(screen.getByText('Nuevos sets Star Wars ya disponibles')).toBeTruthy();
+    fireEvent.click(screen.getByLabelText('Cerrar anuncio'));
+    expect(screen.queryByText('Nuevos sets Star Wars ya disponibles')).toBeNull();
+  });
 });

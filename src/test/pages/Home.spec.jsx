@@ -37,4 +37,14 @@ describe('Home Page', () => {
    expect(container).toHaveClass('container');
    expect(container).toHaveClass('my-5');
  });
+
+ it('renderiza la franja de beneficios', () => {
+   render(<BrowserRouter><Home /></BrowserRouter>);
+   expect(screen.getByText('¿Por qué Brick Motors?')).toBeTruthy();
+ });
+
+ it('renderiza la bienvenida a la tienda', () => {
+   render(<BrowserRouter><Home /></BrowserRouter>);
+   expect(screen.getByText('¡BIENVENIDO A NUESTRA TIENDA OFICIAL DE BRICK MOTORS!')).toBeTruthy();
+ });
 });
