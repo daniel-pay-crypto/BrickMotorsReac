@@ -13,6 +13,7 @@ import ProductDetail from './pages/ProductDetail';
 import { Contacto } from './pages/Contacto';
 import { DetalleBlog } from './pages/DetalleBlog';
 import { Cherno } from './pages/Cherno';
+import { EstrellaMuerte } from './pages/EstrellaMuerte';
 import { Administracion } from './pages/Administracion';
 import { Nosotros } from './pages/Nosotros';
 import { Blog } from './pages/Blog';
@@ -50,6 +51,7 @@ function App() {
         <Route path="/products/:id" element={<ProductDetail />} />
         <Route path="/contacto" element={<Contacto />} />
         <Route path="/cherno" element={<Cherno />} />
+        <Route path="/estrella-de-la-muerte" element={<EstrellaMuerte />} />
         <Route
           path="/admin"
           element={
