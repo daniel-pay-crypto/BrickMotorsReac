@@ -1,18 +1,13 @@
 import './Home.css';
 import { HeroBanner } from '../components/organisms/HeroBanner';
 import { Link } from 'react-router-dom';
+import { SeccionProyectos } from '../components/organisms/SeccionProyectos';
 import { SeccionProductos } from '../components/organisms/SeccionProductos';
 import { SeccionBeneficios } from '../components/organisms/SeccionBeneficios';
-import Revelar from '../components/atoms/Revelar';
 
 export default function Home({ agregarAlCarrito }) {
   return (
     <>
-      <div className="container my-5" style={{ display: 'none' }}>
-        <h1>Página de Inicio</h1>
-        <p>Bienvenidos a nuestro sitio web.</p>
-      </div>
-
       <main>
         <HeroBanner />
 
@@ -26,22 +21,7 @@ export default function Home({ agregarAlCarrito }) {
 
         <SeccionBeneficios />
 
-        <div className="seccion-cherno">
-          <h2 className="titulo-cherno">¡Dale un vistazo a nuestro próximo proyecto!</h2>
-          <Revelar>
-            <div className="contenedor-cherno">
-              <div className="cherno-imagen">
-                <Link to="/cherno">
-                  <img src="/img/chernolink.jpg" alt="Proyecto Cherno Alpha" />
-                </Link>
-              </div>
-              <div className="cherno-texto">
-                <p>El nuevo proyecto ambicioso de Brick Motors ya esta en camino. 5,000 piezas de algo... increible.</p>
-                <p>Pura Ingeniería Technic al mas alto nivel.</p>
-              </div>
-            </div>
-          </Revelar>
-        </div>
+        <SeccionProyectos />
 
         <div className="seccion-animada">
           <h2>¡Explora Nuestros Productos!</h2>
@@ -50,11 +30,25 @@ export default function Home({ agregarAlCarrito }) {
 
         <SeccionProductos onAgregar={agregarAlCarrito} />
 
-        <div className="seccion-animada2">
-          <h2>¡Cruza la galaxia persiguiendo a los ultimos jedis que quedan!</h2>
-          <img src="/img/stardestroyer.png" className="imagen-deslizable izquierda" alt="Destructor Estelar" />
-          <h2>¿Te atreves?</h2>
-        </div>
+        <section className="seccion-galaxia" aria-labelledby="titulo-galaxia">
+          <div className="seccion-galaxia__contenido">
+            <span>COLECCIÓN STAR WARS</span>
+            <h2 id="titulo-galaxia">¿Te atreves a conquistar la galaxia?</h2>
+            <p>
+              Construye tu propia flota, persigue a los últimos Jedi y lleva
+              el poder del Imperio a tu colección.
+            </p>
+            <Link to="/productos" className="seccion-galaxia__boton">
+              Descubrir la colección ↗
+            </Link>
+          </div>
+          <img
+            src="/img/stardestroyer.png"
+            alt="Destructor Estelar de Star Wars"
+            className="seccion-galaxia__nave"
+            loading="lazy"
+          />
+        </section>
       </main>
     </>
   );
