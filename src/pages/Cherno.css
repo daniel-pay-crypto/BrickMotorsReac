@@ -50,7 +50,7 @@
 
 .seccion-info-robot {
   padding: 80px 10%;
-  background-image: url('/img/fondoradiactivo.jpg');
+  background-image: linear-gradient(rgba(2, 6, 12, .45), rgba(2, 6, 12, .72)), url('/img/fondoradiactivo.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -236,4 +236,30 @@
   .columna-texto-llamativo {
     text-align: center;
   }
+}
+
+
+.seccion-info-robot .columna-texto {
+  min-width: 0;
+  padding: clamp(24px, 4vw, 42px);
+  border-radius: 18px;
+  border: 1px solid rgba(255, 207, 0, .28);
+  border-left: 5px solid #ffcf00;
+  background: rgba(5, 10, 18, .92);
+  box-shadow: 0 22px 42px rgba(0, 0, 0, .55);
+  text-align: left;
+}
+@media (max-width: 960px) {
+  .seccion-info-robot { padding: 54px 20px; }
+  .seccion-info-robot .contenedor-columnas { justify-content: center; gap: 25px; }
+  .seccion-info-robot .columna-imagen { transform: none; max-width: 350px; }
+  .seccion-info-robot .columna-texto { flex: 1 1 450px; }
+}
+@media (max-width: 480px) {
+  .hero-video-container .hero-contenido h1 { font-size: 2.2rem; }
+  .seccion-info-robot .columna-texto h2 { font-size: 2rem; }
+  .escenario-pelea { height: 270px; }
+  .titulo-impacto { font-size: 2.1rem; }
+  .subtitulo-impacto { font-size: 1.9rem; }
+  .columna-texto-llamativo h2 { font-size: 1.4rem; }
 }
