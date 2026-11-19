@@ -146,7 +146,7 @@
     transform: scale(1.15);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1240px) {
     .barra-navegacion {
         padding: 10px 15px;
     }

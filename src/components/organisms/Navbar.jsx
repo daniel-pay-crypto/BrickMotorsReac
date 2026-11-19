@@ -39,6 +39,7 @@ export function Navbar({
         <Link to="/blog" onClick={cerrarMenu}>Blog</Link>
         <Link to="/contacto" onClick={cerrarMenu}>Contacto</Link>
         <Link to="/cherno" onClick={cerrarMenu}>Cherno</Link>
+        <Link to="/estrella-de-la-muerte" onClick={cerrarMenu}>Proyecto Star Wars</Link>
       </nav>
 
       <div className="nav-derecha">
