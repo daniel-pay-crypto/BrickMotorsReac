@@ -1,0 +1,43 @@
+.fondo-estelar {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.fondo-estelar__estrellas {
+  position: absolute;
+  inset: -8%;
+  display: block;
+  background-repeat: repeat;
+  will-change: transform;
+}
+
+.fondo-estelar__estrellas--cerca {
+  opacity: .58;
+  background-image: radial-gradient(circle, #fbfdff 1px, transparent 1.7px);
+  background-size: 157px 139px;
+  background-position: 28px 49px;
+  animation: estrella-deriva-cerca 75s linear infinite alternate;
+}
+
+.fondo-estelar__estrellas--lejos {
+  opacity: .33;
+  background-image: radial-gradient(circle, #a3c9ff .8px, transparent 1.4px);
+  background-size: 91px 117px;
+  background-position: 40px 17px;
+  animation: estrella-deriva-lejos 110s linear infinite alternate;
+}
+
+@keyframes estrella-deriva-cerca {
+  to { transform: translate3d(36px, -70px, 0); }
+}
+
+@keyframes estrella-deriva-lejos {
+  to { transform: translate3d(-44px, 55px, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fondo-estelar__estrellas { animation: none; will-change: auto; }
+}
