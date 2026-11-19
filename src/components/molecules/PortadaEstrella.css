@@ -1,0 +1,152 @@
+.estrella-portada {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(20px, 5vw, 80px);
+  align-items: center;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: clamp(56px, 7vw, 104px) clamp(24px, 5.5vw, 78px) 100px;
+  min-height: min(830px, 92svh);
+}
+
+.estrella-portada__mensaje { text-align: left; min-width: 0; }
+.estrella-portada__capitulo {
+  display: inline-block;
+  color: #f0bc28;
+  font-weight: 800;
+  font-size: clamp(.68rem, 1.3vw, .83rem);
+  letter-spacing: .22em;
+  line-height: 1.65;
+}
+
+.estrella-portada h1 {
+  margin: 19px 0 18px;
+  color: var(--estrella-amarillo);
+  font-family: Impact, 'Arial Black', 'Franklin Gothic Heavy', system-ui, sans-serif;
+  font-size: clamp(3.5rem, 6.1vw, 6.2rem);
+  font-weight: 900;
+  letter-spacing: .035em;
+  text-transform: uppercase;
+  line-height: .98;
+  text-shadow: 0 4px 0 #7e5806, 0 14px 36px #000;
+  overflow-wrap: break-word;
+}
+
+.estrella-portada__creditos {
+  width: min(100%, 520px);
+  padding: 8px 5px;
+  transform: perspective(900px) rotateX(7deg);
+  transform-origin: 50% 50%;
+}
+.estrella-portada__introduccion {
+  font-size: clamp(1.15rem, 2.1vw, 1.55rem);
+  font-weight: 750;
+  line-height: 1.55;
+  letter-spacing: .04em;
+  color: var(--estrella-amarillo);
+  text-shadow: 0 3px 12px rgba(0, 0, 0, .93);
+  margin: 0;
+}
+
+.estrella-portada__accion {
+  margin-top: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  padding: 15px 23px;
+  color: #050914;
+  background: var(--estrella-amarillo);
+  border: 2px solid var(--estrella-amarillo);
+  border-radius: 9px;
+  font-weight: 900;
+  font-size: 1.03rem;
+  box-shadow: 0 11px 31px rgba(248, 208, 31, .12);
+  transition: transform .2s ease, background .2s ease;
+}
+.estrella-portada__accion:hover { color: #050914; background: #fff2a1; transform: translateY(-3px); }
+.estrella-portada__nota {
+  display: block;
+  color: #b7c8e0;
+  margin-top: 17px;
+  font-size: .81rem;
+  letter-spacing: .07em;
+}
+
+.estrella-portada__escena {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 520px;
+  isolation: isolate;
+}
+.estrella-portada__halo {
+  position: absolute;
+  width: min(105%, 620px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(46, 119, 222, .35) 4%, rgba(31, 73, 161, .16) 46%, transparent 72%);
+  filter: blur(14px);
+  animation: estrella-pulso 6s ease-in-out infinite alternate;
+}
+.estrella-portada__orbita {
+  position: absolute;
+  width: min(95%, 540px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid rgba(126, 181, 255, .19);
+  box-shadow: 0 0 38px rgba(34, 91, 177, .14);
+  transform: rotateX(63deg) rotateZ(12deg);
+}
+.estrella-portada__modelo {
+  width: min(100%, 600px);
+  position: relative;
+  z-index: 1;
+  max-height: 590px;
+  object-fit: contain;
+  filter: drop-shadow(0 36px 40px rgba(0, 0, 0, .7));
+  animation: estrella-levita 7s ease-in-out infinite;
+  will-change: transform;
+}
+.estrella-portada__indicador {
+  position: absolute;
+  bottom: 2px;
+  right: 0;
+  font-size: .7rem;
+  color: #9fb8d4;
+  letter-spacing: .23em;
+}
+@keyframes estrella-levita {
+  0%, 100% { transform: translateY(8px) rotate(-1deg); }
+  50% { transform: translateY(-25px) rotate(.9deg); }
+}
+@keyframes estrella-pulso {
+  to { opacity: .62; transform: scale(1.05); }
+}
+
+@media (max-width: 940px) {
+  .estrella-portada {
+    grid-template-columns: 1fr;
+    gap: 0;
+    min-height: initial;
+    padding: 56px 25px 60px;
+  }
+  .estrella-portada__mensaje { text-align: center; }
+  .estrella-portada__creditos { margin-inline: auto; }
+  .estrella-portada h1 { font-size: clamp(3.1rem, 9vw, 5.8rem); }
+  .estrella-portada__escena { min-height: 0; margin: 6px auto 0; width: min(100%, 570px); }
+  .estrella-portada__indicador { right: 50%; transform: translateX(50%); white-space: nowrap; }
+}
+@media (max-width: 560px) {
+  .estrella-portada { padding: 42px 20px 48px; }
+  .estrella-portada h1 { font-size: clamp(2.65rem, 11.2vw, 4.15rem); letter-spacing: .012em; line-height: 1.02; }
+  .estrella-portada__introduccion { font-size: 1.12rem; }
+  .estrella-portada__modelo { width: 100%; }
+  .estrella-portada__escena { margin-top: 18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .estrella-portada__modelo, .estrella-portada__halo { animation: none; will-change: auto; }
+  .estrella-portada__accion { transition: none; }
+  .estrella-portada__accion:hover { transform: none; }
+}
