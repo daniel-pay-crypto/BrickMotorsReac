@@ -19,6 +19,7 @@ describe('Navbar Component', () => {
     expect(screen.getByText('Inicio')).toBeTruthy();
     expect(screen.getByText('Productos')).toBeTruthy();
     expect(screen.getByText('Contacto')).toBeTruthy();
+    expect(screen.getByText('Proyecto Star Wars').getAttribute('href')).toBe('/estrella-de-la-muerte');
   });
 
   it('renderiza los enlaces de iniciar sesion y registrarse', () => {
