@@ -1,0 +1,184 @@
+.tarjeta-proyecto {
+  --proyecto-acento: #ffcf00;
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+  align-items: stretch;
+  width: 100%;
+  min-height: 445px;
+  isolation: isolate;
+  background: rgba(4, 10, 21, .94);
+  border: 1px solid rgba(255, 255, 255, .15);
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 25px 55px rgba(0, 0, 0, .45);
+}
+
+.tarjeta-proyecto--galaxia {
+  --proyecto-acento: #ffe81f;
+}
+
+.tarjeta-proyecto--galaxia .tarjeta-proyecto__visual {
+  order: 2;
+  background: linear-gradient(145deg, rgba(2, 5, 16, .68), rgba(12, 18, 44, .43)),
+    url('/img/fondo-star-wars.jpg') center / cover;
+}
+.tarjeta-proyecto--galaxia .tarjeta-proyecto__visual img { animation: tarjeta-galaxia-flota 7s ease-in-out infinite; }
+.tarjeta-proyecto--galaxia .tarjeta-proyecto__texto h3 {
+  color: var(--proyecto-acento);
+  font-family: Impact, 'Arial Black', system-ui, sans-serif;
+  font-size: clamp(2.5rem, 4.3vw, 4.05rem);
+  letter-spacing: .035em;
+  line-height: 1.04;
+  text-shadow: 0 4px 0 rgba(100, 73, 6, .55), 0 10px 22px rgba(0, 0, 0, .7);
+}
+@keyframes tarjeta-galaxia-flota {
+  0%,100% { transform: translateY(4px); }
+  50% { transform: translateY(-14px); }
+}
+.tarjeta-proyecto--galaxia .tarjeta-proyecto__texto { order: 1; }
+
+.tarjeta-proyecto__visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  background: radial-gradient(ellipse at 50% 45%, rgba(43, 88, 132, .26), transparent 66%),
+    linear-gradient(160deg, rgba(17, 28, 47, .95), rgba(2, 5, 12, 1));
+  overflow: hidden;
+}
+
+.tarjeta-proyecto__visual img {
+  width: 100%;
+  height: 440px;
+  object-fit: contain;
+  transition: transform .5s ease, filter .5s ease;
+  filter: drop-shadow(0 12px 18px rgba(0, 0, 0, .38));
+}
+
+.tarjeta-proyecto--cherno .tarjeta-proyecto__visual img {
+  width: min(88%, 315px);
+  border: 2px solid #ffcf00;
+  border-radius: 12px;
+  height: 416px;
+  object-fit: cover;
+}
+
+.tarjeta-proyecto__visual:hover img,
+.tarjeta-proyecto__visual:focus-visible img {
+  transform: scale(1.035);
+  filter: drop-shadow(0 15px 28px rgba(0, 0, 0, .5));
+}
+
+.tarjeta-proyecto__texto {
+  padding: clamp(26px, 5vw, 52px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+  background: linear-gradient(125deg, rgba(4, 8, 17, .97), rgba(12, 25, 44, .92));
+  border-left: 4px solid var(--proyecto-acento);
+}
+
+.tarjeta-proyecto--galaxia .tarjeta-proyecto__texto {
+  border-left: 0;
+  border-right: 4px solid var(--proyecto-acento);
+}
+
+.tarjeta-proyecto__etiqueta {
+  color: var(--proyecto-acento);
+  letter-spacing: .16em;
+  font-size: .74rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.tarjeta-proyecto__texto h3 {
+  margin: 12px 0 10px;
+  font-size: clamp(2rem, 3.5vw, 3.15rem);
+  text-transform: uppercase;
+  color: #fff;
+  line-height: 1.07;
+}
+
+.tarjeta-proyecto__subtitulo {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--proyecto-acento);
+  margin: 0 0 14px;
+}
+
+.tarjeta-proyecto__descripcion {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: #d9e2ec;
+  max-width: 57ch;
+}
+
+.tarjeta-proyecto__caracteristicas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0;
+  margin: 12px 0 28px;
+  list-style: none;
+}
+
+.tarjeta-proyecto__caracteristicas li {
+  padding: 7px 11px;
+  border: 1px solid rgba(255, 255, 255, .19);
+  border-radius: 999px;
+  font-size: .78rem;
+  color: #eff6ff;
+  background: rgba(255,255,255,.06);
+}
+
+.tarjeta-proyecto__boton {
+  display: inline-flex;
+  gap: 16px;
+  align-self: flex-start;
+  align-items: center;
+  border-radius: 9px;
+  background: var(--proyecto-acento);
+  color: #05111d;
+  text-decoration: none;
+  font-size: .97rem;
+  font-weight: 800;
+  padding: 13px 19px;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.tarjeta-proyecto--galaxia .tarjeta-proyecto__boton:hover { box-shadow: 0 7px 24px rgba(255, 232, 31, .25); }
+
+.tarjeta-proyecto__boton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 7px 24px rgba(117, 186, 255, .25);
+  color: #05111d;
+}
+
+@media (max-width: 780px) {
+  .tarjeta-proyecto { grid-template-columns: 1fr; }
+  .tarjeta-proyecto--galaxia .tarjeta-proyecto__visual { order: 0; }
+  .tarjeta-proyecto--galaxia .tarjeta-proyecto__texto { order: 0; }
+  .tarjeta-proyecto__visual { min-height: 280px; }
+  .tarjeta-proyecto__visual img { height: 310px; }
+  .tarjeta-proyecto--cherno .tarjeta-proyecto__visual img { height: 280px; width: 196px; }
+  .tarjeta-proyecto__texto,
+  .tarjeta-proyecto--galaxia .tarjeta-proyecto__texto {
+    border: 0;
+    border-top: 4px solid var(--proyecto-acento);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tarjeta-proyecto__visual img, .tarjeta-proyecto__boton { transition: none; }
+  .tarjeta-proyecto--galaxia .tarjeta-proyecto__visual img { animation: none; }
+  .tarjeta-proyecto__visual:hover img, .tarjeta-proyecto--galaxia .tarjeta-proyecto__boton:hover { box-shadow: 0 7px 24px rgba(255, 232, 31, .25); }
+
+.tarjeta-proyecto__boton:hover { transform: none; }
+}
+
+/* Hover compatible con la animación de flotación de la tarjeta galáctica. */
+.tarjeta-proyecto--galaxia .tarjeta-proyecto__visual:hover img,
+.tarjeta-proyecto--galaxia .tarjeta-proyecto__visual:focus-visible img {
+  filter: drop-shadow(0 18px 28px rgba(0,0,0,.55)) brightness(1.08);
+}
