@@ -1,50 +1,101 @@
+
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import Home from '../../pages/Home';
 
+const renderHome = () => {
+  return render(
+    <MemoryRouter>
+      <Home agregarAlCarrito={() => {}} />
+    </MemoryRouter>
+  );
+};
 
 describe('Home Page', () => {
- it('renderiza el título de la página de inicio', () => {
-    
-   render
-   (<BrowserRouter>
-   <Home />
-   </BrowserRouter>);
-   const title = screen.getByText('Página de Inicio');
-   expect(title).toBeTruthy();
- });
 
+  it('renderiza el titulo de bienvenida', () => {
+    renderHome();
 
- it('renderiza el párrafo de bienvenida', () => {
-   render
-   (<BrowserRouter>
-   <Home />
-   </BrowserRouter>);
+    expect(
+      screen.getByRole('heading', {
+        name: /BIENVENIDO A NUESTRA TIENDA OFICIAL DE BRICK MOTORS/i
+      })
+    ).toBeTruthy();
+  });
 
-   const paragraph = screen.getByText('Bienvenidos a nuestro sitio web.');
-   expect(paragraph).toBeTruthy();
- });
+  it('renderiza el texto de bienvenida', () => {
+    renderHome();
 
+    expect(
+      screen.getByText(/Aquí encontrarás todo lo necesario para romper los limites/i)
+    ).toBeTruthy();
+  });
 
- it('renderiza el contenedor de Bootstrap', () => {
-   render
-   (<BrowserRouter>
-   <Home />
-   </BrowserRouter>);
+  it('renderiza la seccion de beneficios', () => {
+    renderHome();
 
-   const container = screen.getByText('Página de Inicio').closest('div');
-   expect(container).toHaveClass('container');
-   expect(container).toHaveClass('my-5');
- });
+    expect(
+      screen.getByText('¿Por qué Brick Motors?')
+    ).toBeTruthy();
+  });
 
- it('renderiza la franja de beneficios', () => {
-   render(<BrowserRouter><Home /></BrowserRouter>);
-   expect(screen.getByText('¿Por qué Brick Motors?')).toBeTruthy();
- });
+  it('renderiza la seccion de proyectos', () => {
+    renderHome();
 
- it('renderiza la bienvenida a la tienda', () => {
-   render(<BrowserRouter><Home /></BrowserRouter>);
-   expect(screen.getByText('¡BIENVENIDO A NUESTRA TIENDA OFICIAL DE BRICK MOTORS!')).toBeTruthy();
- });
+    expect(
+      screen.getByRole('heading', {
+        name: 'Próximos proyectos de Brick Motors'
+      })
+    ).toBeTruthy();
+
+    expect(
+      screen.getByRole('heading', { name: 'Cherno Alpha' })
+    ).toBeTruthy();
+
+    expect(
+      screen.getByRole('heading', { name: 'Estrella de la Muerte' })
+    ).toBeTruthy();
+  });
+
+  it('permite acceder a los proyectos', () => {
+    renderHome();
+
+    expect(
+      screen.getByRole('link', { name: /Descubrir Cherno Alpha/i })
+        .getAttribute('href')
+    ).toBe('/cherno');
+
+    expect(
+      screen.getByRole('link', { name: /Explorar el proyecto/i })
+        .getAttribute('href')
+    ).toBe('/estrella-de-la-muerte');
+  });
+
+  it('renderiza la seccion de productos', () => {
+    renderHome();
+
+    expect(
+      screen.getByRole('heading', {
+        name: '¡Explora Nuestros Productos!'
+      })
+    ).toBeTruthy();
+  });
+
+  it('renderiza la seccion de Star Wars', () => {
+    renderHome();
+
+    expect(
+      screen.getByRole('heading', {
+        name: '¿Te atreves a conquistar la galaxia?'
+      })
+    ).toBeTruthy();
+
+    expect(
+      screen.getByRole('link', {
+        name: /Descubrir la colección/i
+      }).getAttribute('href')
+    ).toBe('/productos');
+  });
+
 });
