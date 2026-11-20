@@ -163,7 +163,7 @@ export function AdminProductos() {
             id="codigo"
             name="codigo"
             label="Código"
-            placeholder="Ej. ATAT-001"
+            placeholder="Ej Codigo. ATAT-001"
             value={valores.codigo}
             onChange={handleChange}
             error={errores.codigo}
@@ -172,7 +172,7 @@ export function AdminProductos() {
             id="nombre"
             name="nombre"
             label="Nombre"
-            placeholder="Ej. AT-AT Supremacy"
+            placeholder="Ej Nombre. AT-AT Supremacy"
             value={valores.nombre}
             onChange={handleChange}
             error={errores.nombre}
@@ -183,7 +183,7 @@ export function AdminProductos() {
             type="number"
             min={PRECIO_MINIMO}
             label="Precio"
-            placeholder="Ej. 25000 (mínimo 10000)"
+            placeholder="Ej de precio. 25000 (mínimo 10000)"
             value={valores.precio}
             onChange={handleChange}
             error={errores.precio}
@@ -194,7 +194,7 @@ export function AdminProductos() {
             type="number"
             min="0"
             label="Stock"
-            placeholder="Ej. 10"
+            placeholder="Ej de stock. 10"
             value={valores.stock}
             onChange={handleChange}
             error={errores.stock}
@@ -215,7 +215,7 @@ export function AdminProductos() {
             as="textarea"
             rows={3}
             label="Descripción (opcional)"
-            placeholder="Ej. Set Technic con motor y chasis reforzado, ideal para coleccionistas."
+            placeholder="Ej descripcion. Set Technic con motor y chasis reforzado, ideal para coleccionistas."
             value={valores.descripcion}
             onChange={handleChange}
             error={errores.descripcion}
@@ -235,7 +235,7 @@ export function AdminProductos() {
             min="0"
             max="90"
             label="Descuento % (opcional)"
-            placeholder="Ej. 15"
+            placeholder="Ej Descuento. 15"
             value={valores.descuento}
             onChange={handleChange}
             error={errores.descuento}
