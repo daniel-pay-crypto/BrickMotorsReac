@@ -1,11 +1,11 @@
-// Concepto fan: nunca publicar una cifra de piezas o lanzamiento sin confirmación.
+
 export const fichaEstrellaMuerte = [
   { etiqueta: 'Cantidad de piezas', valor: 'Por definir', detalle: 'Se calculará al validar el diseño.' },
   { etiqueta: 'Dimensiones', valor: 'Por definir', detalle: 'Dependerán de la escala final.' },
   { etiqueta: 'Estado actual', valor: 'Concepto', detalle: 'Propuesta en fase de planificación.' },
 ];
 
-// Etapas previstas del desarrollo, no tareas declaradas como completadas.
+
 export const fasesEstrellaMuerte = [
   {
     numero: '01',
