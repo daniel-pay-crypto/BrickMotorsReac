@@ -22,7 +22,7 @@ export function PortadaEstrella() {
         <div className="estrella-portada__orbita" aria-hidden="true" />
         <img
           className="estrella-portada__modelo"
-          src="/img/estrella-muerte-lego"
+          src="/img/estrella-muerte-lego.png"
           alt="Ilustración conceptual de la Estrella de la Muerte hecha con bloques"
           fetchPriority="high"
         />

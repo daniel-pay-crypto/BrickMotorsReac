@@ -21,7 +21,7 @@ export const proyectosDestacados = [
     subtitulo: 'Una leyenda galáctica, pieza a pieza.',
     descripcion:
       'Un concepto de exhibición inspirado en Star Wars. Entra y descubre el diseño, las piezas y el proceso que se proyecta para construirlo.',
-    imagen: '/img/estrella-muerte-lego',
+    imagen: '/img/estrella-muerte-lego.png',
     imagenAlt: 'Ilustración conceptual de la Estrella de la Muerte construida con bloques',
     ruta: '/estrella-de-la-muerte',
     llamada: 'Explorar el proyecto',
