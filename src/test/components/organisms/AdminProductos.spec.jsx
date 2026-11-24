@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { AdminProductos } from '../../../components/organisms/AdminProductos';
 
@@ -132,11 +131,11 @@ describe('AdminProductos Component', () => {
   it('cada casilla del formulario muestra un ejemplo de lo que va', () => {
     render(<AdminProductos />);
     fireEvent.click(screen.getByText('+ Nuevo producto'));
-    expect(screen.getByPlaceholderText('Ej. ATAT-001')).toBeTruthy();
-    expect(screen.getByPlaceholderText('Ej. AT-AT Supremacy')).toBeTruthy();
-    expect(screen.getByPlaceholderText('Ej. 25000 (mínimo 10000)')).toBeTruthy();
-    expect(screen.getByPlaceholderText('Ej. 10')).toBeTruthy();
+    expect(screen.getByPlaceholderText('Ej Codigo. ATAT-001')).toBeTruthy();
+    expect(screen.getByPlaceholderText('Ej Nombre. AT-AT Supremacy')).toBeTruthy();
+    expect(screen.getByPlaceholderText('Ej de precio. 25000 (mínimo 10000)')).toBeTruthy();
+    expect(screen.getByPlaceholderText('Ej de stock. 10')).toBeTruthy();
     expect(screen.getByText('-- Selecciona una categoría (Ej. Technic) --')).toBeTruthy();
-    expect(screen.getByPlaceholderText('Ej. 15')).toBeTruthy();
+    expect(screen.getByPlaceholderText('Ej Descuento. 15')).toBeTruthy();
   });
 });
