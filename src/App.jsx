@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import { AnuncioSuperior } from './components/organisms/AnuncioSuperior';
 import { Navbar } from './components/organisms/Navbar';
 import { Footer } from './components/organisms/Footer';
-import { PanelCarrito } from './components/organisms/PanelCarrito';
+import { CarritoDesplegable } from './components/organisms/CarritoDesplegable';
 import { RutaAdmin } from './components/organisms/RutaAdmin';
 import { useCarrito } from './hooks/useCarrito';
 import { useSesion } from './hooks/useSesion';
@@ -33,7 +33,7 @@ function App() {
         cantidadCarrito={carrito.totalItems}
         onAbrirCarrito={carrito.abrirCarrito}
       />
-      <PanelCarrito
+      <CarritoDesplegable
         abierto={carrito.abierto}
         items={carrito.items}
         totalItems={carrito.totalItems}
