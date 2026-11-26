@@ -1,4 +1,4 @@
-import { leerAlmacen, guardarAlmacen } from './almacen.js';
+import { leerAlmacen, guardarAlmacen } from '../../data/almacen.js';
 
 export const ADMIN = {
   nombre: 'Administrador',

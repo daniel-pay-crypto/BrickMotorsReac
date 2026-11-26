@@ -11,18 +11,18 @@ const renderPagina = () =>
   );
 
 describe('Administracion Page', () => {
-  it('renderiza el titulo del panel', () => {
+  it('renderiza el titulo del panel', async () => {
     renderPagina();
-    expect(screen.getByText('🧱 Brick Motors Admin')).toBeTruthy();
+    expect(await screen.findByText('🧱 Brick Motors Admin')).toBeTruthy();
   });
 
-  it('muestra la tabla de productos por defecto', () => {
+  it('muestra la tabla de productos por defecto', async () => {
     renderPagina();
-    expect(screen.getByText('AT-AT Supremacy')).toBeTruthy();
+    expect(await screen.findByText('AT-AT Supremacy')).toBeTruthy();
   });
 
-  it('renderiza el enlace para volver a la tienda', () => {
+  it('renderiza el enlace para volver a la tienda', async () => {
     renderPagina();
-    expect(screen.getByText('⬅ Volver a la tienda')).toBeTruthy();
+    expect(await screen.findByText('⬅ Volver a la tienda')).toBeTruthy();
   });
 });

@@ -13,8 +13,8 @@ function Consumidor() {
       <p>Lineas: {items.length}</p>
       <p>Panel: {abierto ? 'abierto' : 'cerrado'}</p>
       <button onClick={() => agregar(lego)}>Agregar</button>
-      <button onClick={() => agregar({ ...lego, id: 2, stock: 0 })}>Agregar sin stock</button>
-      <button onClick={() => agregar({ ...lego, id: 50, precio: 1000, descuento: 20, stock: 3 })}>
+      <button onClick={() => agregar({ ...lego, id: 99999, stock: 0 })}>Agregar sin stock</button>
+      <button onClick={() => agregar({ ...lego, id: 8, precio: 1000, descuento: 20, stock: 3 })}>
         Agregar con descuento
       </button>
       <button onClick={() => aumentar(1)}>Aumentar</button>
@@ -30,51 +30,53 @@ describe('useCarrito', () => {
     localStorage.clear();
   });
 
-  it('agrega un producto, suma el total y abre el panel', () => {
+  it('agrega un producto, suma el total y abre el panel', async () => {
     render(<Consumidor />);
-    expect(screen.getByText('Panel: cerrado')).toBeTruthy();
+    expect(await screen.findByText('Panel: cerrado')).toBeTruthy();
     fireEvent.click(screen.getByText('Agregar'));
-    expect(screen.getByText('Unidades: 1')).toBeTruthy();
-    expect(screen.getByText('Total: 1000')).toBeTruthy();
-    expect(screen.getByText('Panel: abierto')).toBeTruthy();
+    expect(await screen.findByText('Unidades: 1')).toBeTruthy();
+    expect(await screen.findByText('Total: 150000')).toBeTruthy();
+    expect(await screen.findByText('Panel: abierto')).toBeTruthy();
     fireEvent.click(screen.getByText('Cerrar'));
-    expect(screen.getByText('Panel: cerrado')).toBeTruthy();
+    expect(await screen.findByText('Panel: cerrado')).toBeTruthy();
   });
 
-  it('suma unidades del mismo producto sin superar el stock', () => {
+  it('suma unidades del mismo producto sin superar el stock', async () => {
     render(<Consumidor />);
     fireEvent.click(screen.getByText('Agregar'));
+    await screen.findByText('Unidades: 1');
     fireEvent.click(screen.getByText('Agregar'));
     fireEvent.click(screen.getByText('Agregar'));
     fireEvent.click(screen.getByText('Aumentar'));
-    expect(screen.getByText('Lineas: 1')).toBeTruthy();
-    expect(screen.getByText('Unidades: 2')).toBeTruthy();
+    expect(await screen.findByText('Lineas: 1')).toBeTruthy();
+    expect(await screen.findByText('Unidades: 2')).toBeTruthy();
   });
 
-  it('no baja de 1 unidad al reducir y no agrega productos sin stock', () => {
+  it('no baja de 1 unidad al reducir y no agrega productos sin stock', async () => {
     render(<Consumidor />);
     fireEvent.click(screen.getByText('Agregar sin stock'));
-    expect(screen.getByText('Lineas: 0')).toBeTruthy();
+    expect(await screen.findByText('Lineas: 0')).toBeTruthy();
     fireEvent.click(screen.getByText('Agregar'));
     fireEvent.click(screen.getByText('Reducir'));
-    expect(screen.getByText('Unidades: 1')).toBeTruthy();
+    expect(await screen.findByText('Unidades: 1')).toBeTruthy();
   });
 
-  it('vacia el carrito', () => {
+  it('vacia el carrito', async () => {
     render(<Consumidor />);
     fireEvent.click(screen.getByText('Agregar'));
+    await screen.findByText('Unidades: 1');
     fireEvent.click(screen.getByText('Vaciar'));
-    expect(screen.getByText('Unidades: 0')).toBeTruthy();
-    expect(screen.getByText('Lineas: 0')).toBeTruthy();
+    expect(await screen.findByText('Unidades: 0')).toBeTruthy();
+    expect(await screen.findByText('Lineas: 0')).toBeTruthy();
   });
 
-  it('calcula el total con el descuento del producto', () => {
+  it('calcula el total con el descuento del producto', async () => {
     render(<Consumidor />);
     fireEvent.click(screen.getByText('Agregar con descuento'));
-    expect(screen.getByText('Total: 800')).toBeTruthy();
+    expect(await screen.findByText('Total: 39992')).toBeTruthy();
   });
 
-  it('guarda el carrito y lo recupera con el precio actual del producto', () => {
+  it('carga el carrito desde la API e ignora los precios guardados en el navegador', async () => {
     localStorage.setItem(
       'carrito',
       JSON.stringify([
@@ -83,8 +85,7 @@ describe('useCarrito', () => {
       ])
     );
     render(<Consumidor />);
-    expect(screen.getByText('Lineas: 1')).toBeTruthy();
-    expect(screen.getByText('Unidades: 3')).toBeTruthy();
-    expect(screen.getByText('Total: 450000')).toBeTruthy();
+    expect(await screen.findByText('Unidades: 0')).toBeTruthy();
+    expect(window.fetch).toHaveBeenCalledWith('/api/v1/carrito', jasmine.any(Object));
   });
 });

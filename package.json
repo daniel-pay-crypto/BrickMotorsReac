@@ -8,6 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
+    "test:e2e": "node --test tests/compra.mjs",
     "test": "karma start karma.conf.cjs --single-run",
     "test:watch": "karma start"
   },
@@ -45,6 +46,7 @@
     "karma-jasmine": "^5.1.0",
     "karma-jasmine-html-reporter": "^2.3.0",
     "karma-webpack": "^5.0.1",
+    "playwright-core": "^1.65.1",
     "style-loader": "^4.0.0",
     "vite": "^8.3.0",
     "webpack": "^5.112.0"

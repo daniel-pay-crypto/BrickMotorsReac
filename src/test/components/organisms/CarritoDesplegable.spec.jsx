@@ -3,6 +3,7 @@ import { CarritoDesplegable } from '../../../components/organisms/CarritoDespleg
 
 const producto = {
   id: 1,
+  descripcion: 'Réplica del caminante AT-ST',
   nombre: 'Caminante AT-ST',
   imagen: '/img/at-st.png',
   precio: 150000,

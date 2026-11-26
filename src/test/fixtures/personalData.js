@@ -1,4 +1,4 @@
-import { leerAlmacen, guardarAlmacen } from './almacen.js';
+import { leerAlmacen, guardarAlmacen } from '../../data/almacen.js';
 
 const personalInicial = [
   { id: 1, nombre: 'Juan Pérez', correo: 'juan@gmail.com', tipo: 'Administrador' },

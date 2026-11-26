@@ -1,4 +1,4 @@
-import { registrarUsuario, buscarUsuario } from '../../data/usuariosData';
+import { registrarUsuario, buscarUsuario } from '../fixtures/usuariosData.js';
 
 describe('usuariosData', () => {
   beforeEach(() => {

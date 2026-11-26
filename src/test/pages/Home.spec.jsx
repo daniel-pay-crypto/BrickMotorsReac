@@ -14,7 +14,7 @@ const renderHome = () => {
 
 describe('Home Page', () => {
 
-  it('renderiza el titulo de bienvenida', () => {
+  it('renderiza el titulo de bienvenida', async () => {
     renderHome();
 
     expect(
@@ -24,7 +24,7 @@ describe('Home Page', () => {
     ).toBeTruthy();
   });
 
-  it('renderiza el texto de bienvenida', () => {
+  it('renderiza el texto de bienvenida', async () => {
     renderHome();
 
     expect(
@@ -32,7 +32,7 @@ describe('Home Page', () => {
     ).toBeTruthy();
   });
 
-  it('renderiza la seccion de beneficios', () => {
+  it('renderiza la seccion de beneficios', async () => {
     renderHome();
 
     expect(
@@ -40,7 +40,7 @@ describe('Home Page', () => {
     ).toBeTruthy();
   });
 
-  it('renderiza la seccion de proyectos', () => {
+  it('renderiza la seccion de proyectos', async () => {
     renderHome();
 
     expect(
@@ -58,7 +58,7 @@ describe('Home Page', () => {
     ).toBeTruthy();
   });
 
-  it('permite acceder a los proyectos', () => {
+  it('permite acceder a los proyectos', async () => {
     renderHome();
 
     expect(
@@ -72,7 +72,7 @@ describe('Home Page', () => {
     ).toBe('/estrella-de-la-muerte');
   });
 
-  it('renderiza la seccion de productos', () => {
+  it('renderiza la seccion de productos', async () => {
     renderHome();
 
     expect(
@@ -82,7 +82,7 @@ describe('Home Page', () => {
     ).toBeTruthy();
   });
 
-  it('renderiza la seccion de Star Wars', () => {
+  it('renderiza la seccion de Star Wars', async () => {
     renderHome();
 
     expect(

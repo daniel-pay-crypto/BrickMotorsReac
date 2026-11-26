@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { FormularioRegistro } from '../../../components/organisms/FormularioRegistro';
-import { buscarUsuario } from '../../../data/usuariosData';
+import { buscarUsuario } from '../../fixtures/usuariosData.js';
 import { MENSAJE_NOMBRE_INVALIDO } from '../../../data/Validaciones';
 
 const mensajeContrasena =
@@ -27,7 +27,7 @@ describe('FormularioRegistro Component', () => {
     localStorage.clear();
   });
 
-  it('muestra los errores al enviar el formulario vacio', () => {
+  it('muestra los errores al enviar el formulario vacio', async () => {
     renderFormulario();
     fireEvent.click(screen.getByText('Registrarse'));
     expect(screen.getByText('El nombre no puede estar vacío.')).toBeTruthy();
@@ -35,41 +35,41 @@ describe('FormularioRegistro Component', () => {
     expect(screen.getByText('La contraseña no puede estar vacía.')).toBeTruthy();
   });
 
-  it('muestra error si el correo no es de gmail', () => {
+  it('muestra error si el correo no es de gmail', async () => {
     renderFormulario();
     llenar('Juan', 'juan@hotmail.com', 'Clave123!');
     expect(screen.getByText('Ingresa un correo válido de @gmail.com.')).toBeTruthy();
     expect(screen.queryByText('¡Cuenta creada con éxito!')).toBeNull();
   });
 
-  it('muestra el mensaje de exito, limpia el formulario y guarda el usuario', () => {
+  it('muestra el mensaje de exito, limpia el formulario y guarda el usuario', async () => {
     renderFormulario();
     llenar('Juan', 'juan@gmail.com', 'Clave123!');
-    expect(screen.getByText('¡Cuenta creada con éxito!')).toBeTruthy();
+    expect(await screen.findByText('¡Cuenta creada con éxito!')).toBeTruthy();
     expect(screen.getByLabelText('Nombre completo').value).toBe('');
     expect(buscarUsuario('juan@gmail.com', 'Clave123!')).not.toBeNull();
   });
 
-  it('renderiza el enlace para iniciar sesion', () => {
+  it('renderiza el enlace para iniciar sesion', async () => {
     renderFormulario();
     expect(screen.getByText('Inicia sesión aquí')).toBeTruthy();
   });
 
-  it('muestra error si el nombre repite una letra 3 veces seguidas', () => {
+  it('muestra error si el nombre repite una letra 3 veces seguidas', async () => {
     renderFormulario();
     llenar('xxx', 'juan@gmail.com', 'Clave123!');
     expect(screen.getByText(MENSAJE_NOMBRE_INVALIDO)).toBeTruthy();
     expect(screen.queryByText('¡Cuenta creada con éxito!')).toBeNull();
   });
 
-  it('muestra error si el nombre tiene demasiadas consonantes juntas', () => {
+  it('muestra error si el nombre tiene demasiadas consonantes juntas', async () => {
     renderFormulario();
     llenar('Jhfdsk', 'juan@gmail.com', 'Clave123!');
     expect(screen.getByText(MENSAJE_NOMBRE_INVALIDO)).toBeTruthy();
     expect(screen.queryByText('¡Cuenta creada con éxito!')).toBeNull();
   });
 
-  it('muestra error si el correo tiene solo caracteres especiales', () => {
+  it('muestra error si el correo tiene solo caracteres especiales', async () => {
     renderFormulario();
     llenar('Juan', '...@gmail.com', 'Clave123!');
     expect(screen.getByText('Ingresa un correo válido de @gmail.com.')).toBeTruthy();
@@ -86,9 +86,9 @@ describe('FormularioRegistro Component', () => {
     });
   });
 
-  it('no deja registrar el correo del admin ni un correo repetido', () => {
+  it('no deja registrar el correo del admin ni un correo repetido', async () => {
     renderFormulario();
     llenar('Falso', 'admin@gmail.com', 'Clave123!');
-    expect(screen.getByText('Ese correo ya está registrado.')).toBeTruthy();
+    expect(await screen.findByText('Ese correo ya está registrado.')).toBeTruthy();
   });
 });

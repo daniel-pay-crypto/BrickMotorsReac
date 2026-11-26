@@ -1,4 +1,4 @@
-import { calcularPrecioFinal, getLegos, addLego, updateLego } from '../../data/legosData';
+import { calcularPrecioFinal, getLegos, addLego, updateLego } from '../fixtures/legosData.js';
 
 describe('legosData', () => {
   beforeEach(() => {

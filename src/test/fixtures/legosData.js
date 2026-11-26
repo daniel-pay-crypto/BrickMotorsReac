@@ -1,4 +1,4 @@
-import { leerAlmacen, guardarAlmacen } from './almacen.js';
+import { leerAlmacen, guardarAlmacen } from '../../data/almacen.js';
 
 const legosIniciales = [
   { id: 1, codigo: "ATST-001", nombre: "Caminante AT-ST", categoria: "Star Wars", precio: 150000, stock: 5, oferta: false, descripcion: "Réplica del caminante AT-ST del Imperio, ideal para exhibir en tu colección de Star Wars.", imagen: "/img/at-st.png" },
@@ -17,7 +17,7 @@ const legosIniciales = [
   { id: 14, codigo: "SW-014", nombre: "Busto de Darth Vader", categoria: "Star Wars", precio: 89990, stock: 2, oferta: true, descuento: 20, descripcion: "Busto de Darth Vader para exhibir, un clásico para coleccionistas.", imagen: "https://www.tiendalego.cl/cdn/shop/files/75439_Box1_v39_851x851.jpg?v=1776799113" }
 ];
 
-export const calcularPrecioFinal = (precio, descuento = 0) => Math.round((precio * (100 - descuento)) / 100);
+export { calcularPrecioFinal } from '../../data/precios.js';
 
 const descripcionInicial = (id) => legosIniciales.find((lego) => lego.id === id)?.descripcion || '';
 
