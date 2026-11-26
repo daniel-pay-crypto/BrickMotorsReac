@@ -7,7 +7,7 @@ import { RutaAdmin } from './components/organisms/RutaAdmin';
 import { useCarrito } from './hooks/useCarrito';
 import { useSesion } from './hooks/useSesion';
 
-import  Home from './pages/Home';
+import Home from './pages/Home';
 import { Productos } from './pages/Productos';
 import ProductDetail from './pages/ProductDetail';
 import { Contacto } from './pages/Contacto';
@@ -48,7 +48,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home agregarAlCarrito={carrito.agregar} />} />
         <Route path="/productos" element={<Productos agregarAlCarrito={carrito.agregar} />} />
-        <Route path="/products/:id" element={<ProductDetail />} />
+        <Route path="/products/:id" element={<ProductDetail agregarAlCarrito={carrito.agregar} />} />
         <Route path="/contacto" element={<Contacto />} />
         <Route path="/cherno" element={<Cherno />} />
         <Route path="/estrella-de-la-muerte" element={<EstrellaMuerte />} />
