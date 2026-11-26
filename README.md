@@ -1,154 +1,25 @@
 # BrickMotorsReac
 
-Esta es la tienda online de **Brick Motors**, una tienda de sets LEGO (Technic, Star Wars y MOC) hecha en React. Es la segunda versión del proyecto: primero la hicimos con HTML, CSS y JavaScript (repo `BrickMotors`) y ahora la pasamos a React para la evaluación 2 de Desarrollo Fullstack II.
+Tienda Brick Motors de Daniel Leyton, Thomás Osorio y Felipe Baes. React, Vite, React Router y React Bootstrap consumen la API Spring Boot de BrickMotors-Backend.
 
-Repo: https://github.com/daniel-pay-crypto/BrickMotorsReac
+## Ejecutar en desarrollo
 
-## Integrantes
+Con el backend disponible en el puerto 8081, ejecutar `npm ci` y `npm run dev`. Abrir `http://localhost:5173`. Vite reenvía `/api` al backend. La variable `BRICK_API_PROXY` permite cambiar el servidor de destino.
 
-- Daniel Leyton, Thomás Osorio, Felipe Baes
+## Comprar y administrar
 
-## Qué usamos
+El catálogo y las fichas muestran existencias, imágenes y precios de la API. Un visitante puede agregar productos al carrito antes de registrarse o iniciar sesión. Al confirmar la compra, el servidor verifica existencias y precios, descuenta el stock y devuelve el número del pedido. La opción **Mis pedidos** muestra el historial y los detalles de cada compra. El formulario de contacto confirma el envío al recibir la respuesta del servidor.
 
-- **React + Vite** para armar la página
-- **react-router-dom** para moverse entre páginas
-- **react-bootstrap** (Bootstrap) para botones, tablas, formularios, etc.
-- **Karma + Jasmine + Testing Library** para las pruebas unitarias (lo que nos pidió el profe)
+Desde **Panel Admin**, el vendedor gestiona productos, categorías, estados de pedidos y mensajes de contacto. El administrador también puede crear, editar y eliminar usuarios y asignar roles. El registro público crea clientes.
 
-## Cómo correrlo
+## Sesión y despliegue
 
-Primero instalar todo:
+React mantiene el JWT de acceso en memoria. La cookie de sesión HttpOnly permite solicitar un JWT nuevo después de una recarga. El cierre de sesión invalida la sesión en Spring. La autorización definitiva y la selección del propietario del pedido corresponden al backend.
 
-```
-npm install
-```
+En producción, servir la tienda por HTTPS. Configurar un proxy de `/api` al backend antes de la regla de navegación de la SPA, o definir `VITE_API_BASE_URL` con la URL completa de la API, incluido `/api/v1`, al compilar. En ese segundo caso, configurar el origen exacto en `CORS_ALLOWED_ORIGINS` del backend. Para dominios de sitios distintos se requiere `COOKIE_SAME_SITE=none`, HTTPS y un navegador que acepte la cookie entre sitios.
 
-Después levantar la página:
+## Verificación
 
-```
-npm run dev
-```
-
-Y abrir `http://localhost:5173/` en el navegador.
-
-## Cómo están ordenadas las carpetas
-
-Usamos la idea de **atoms, molecules y organisms** (átomos, moléculas y organismos). Básicamente es ir armando la página de lo más chico a lo más grande:
-
-- **atoms**: lo más chico, una sola cosa (un botón, un input, un texto)
-- **molecules**: unos cuantos atoms juntos (un campo de formulario = etiqueta + input + mensaje de error)
-- **organisms**: partes grandes de la página (el navbar, el footer, un formulario completo)
-- **pages**: las páginas completas, que juntan organisms
-
-
-## Las páginas
-
-| Página | Ruta | Qué hace |
-|---|---|---|
-| Home | `/` | página principal con el banner y los productos destacados |
-| Productos | `/productos` | lista de todos los productos |
-| ProductDetail | `/products/:id` | el detalle de un producto |
-| Contacto | `/contacto` | formulario para mandar un mensaje |
-| Administración | `/admin` | panel para manejar productos y usuarios |
-| DetalleBlog | `/blog/:id` | un artículo del blog completo |
-| Categorias y Ofertas | | páginas extra de la tienda |
-
-### Contacto
-
-Tiene tres campos: nombre, correo y mensaje. Las validaciones son:
-
-- Ningún campo puede quedar vacío
-- El correo tiene que ser un `@gmail.com` bien escrito
-
-Si algo está mal sale el mensaje de error en rojo debajo del campo. Si está todo bien sale un mensaje de que se envió y se limpia el formulario.
-
-### Administración
-
-Es un panel con un menú al lado izquierdo donde se cambia entre **Productos** y **Usuarios**. En cada uno hay una tabla y un botón para agregar uno nuevo.
-
-- **Productos**: código, nombre, precio, stock y categoría (Technic, Star Wars o MOC)
-- **Usuarios**: nombre, correo y tipo (Administrador, Vendedor o Cliente)
-
-Las validaciones son las mismas de contacto: nada vacío y correo `@gmail.com`.
-
-*Por ahora los datos se guardan solo en memoria, así que si se recarga la página se pierden los que agregamos.
-
-### Blog
-
-Hay 3 artículos guardados en `data/blogData.js`. La página `DetalleBlog` agarra el número de la ruta (por ejemplo `/blog/2`) y muestra ese artículo con el componente `ArticuloBlog`. También cambia el título de la pestaña del navegador. Si ponen un número que no existe, muestra el artículo 1.
-
-## Los estilos
-
-Usamos Bootstrap para lo básico y CSS propio para lo demás. La idea es:
-
-- En `index.css` / `global.css` solo va lo general: los colores de Brick Motors como variables (`:root`), el reset y el fondo de la página
-- El CSS de cada componente va en un archivo `.css` al lado de su `.jsx` (por ejemplo `Navbar.css` junto a `Navbar.jsx`) y se importa dentro del componente
-
-## Pruebas unitarias
-
-Nos pidieron **3 pruebas por cada componente**. Seguimos la guía que nos mando (Karma + Jasmine + Testing Library). Las pruebas están en `src/test/` y tienen la misma estructura que `components` y `pages`.
-
-Para correrlas:
-
-```
-npm run test
-```
-
-Si queremos que se queden corriendo mientras editamos:
-
-```
-npm run test:watch
-```
-
-Cuando se corren se crea sola una carpeta `coverage` con el reporte.
-
-### Qué probamos
-
-| Componente | Qué revisan las 3 pruebas |
-|---|---|
-| Input | placeholder, que se marque inválido, que ejecute `onChange` |
-| Select | placeholder, las opciones, que ejecute `onChange` |
-| FormField | la etiqueta, que el input quede unido a su etiqueta, el mensaje de error |
-| SelectField | la etiqueta, las opciones, el mensaje de error |
-| TablaDatos | títulos de columnas, datos de las filas, cantidad de filas |
-| FormularioContacto | errores con todo vacío, correo que no es gmail, envío correcto |
-| AdminProductos | productos de ejemplo, errores al guardar vacío, agregar uno nuevo |
-| AdminUsuarios | usuario de ejemplo, errores al guardar vacío, agregar uno nuevo |
-| PanelAdmin | menú lateral, sección por defecto, cambiar a usuarios |
-| ArticuloBlog | título y fecha, imagen, subtítulos y párrafos |
-| Contacto (página) | navbar, formulario, footer |
-| Administracion (página) | título del panel, tabla de productos, enlace para volver |
-| DetalleBlog (página) | artículo según la ruta, título de la pestaña, id que no existe |
-
-### Cómo lo configuramos
-
-Lo que instalamos (sale en la guia que el profe nos mando):
-
-```
-npm install --save-dev karma karma-jasmine jasmine-core karma-chrome-launcher karma-webpack karma-babel-preprocessor karma-jasmine-html-reporter karma-coverage
-npm install --save-dev babel-loader @babel/core @babel/preset-env @babel/preset-react style-loader css-loader
-npm install --save-dev @testing-library/react @testing-library/jasmine-dom
-```
-
-Y los archivos de configuración: `karma.conf.cjs`, `babel.config.cjs` y `src/test/setupTests.js`. En `package.json` agregamos los scripts `test` y `test:watch`.
-
-### Problemas que nos salieron
-
-- **"Cannot find module" en las pruebas**: nos pasó cuando dejamos un archivo `.spec.jsx` en la carpeta equivocada. Los imports cuentan cuántas carpetas hay que subir, así que cada prueba tiene que estar en la misma ruta que el componente (`test/components/organisms/` para organisms, `test/pages/` para pages).
-- **"Can't resolve '/img/...'" con el CSS**: en Karma, webpack trataba de buscar las imágenes del CSS como si fueran archivos de `src`. Lo arreglamos en `karma.conf.cjs` poniéndole `url: false` al `css-loader`:
-
-```js
-{
-  test: /\.css$/,
-  use: [
-    'style-loader',
-    { loader: 'css-loader', options: { url: false } },
-  ],
-},
-```
-
-## Lo que falta
-
-- Que el login funcione de verdad y que `/admin` solo se pueda abrir con un usuario administrador
-- Carrito de compras que funcione
-- Guardar los datos en una base de datos (ahora está todo en memoria)
+- `npm test` ejecuta Karma, Jasmine y Testing Library con Chromium. Se puede definir `CHROME_BIN`.
+- `npm run lint` comprueba el código y `npm run build` crea la distribución.
+- `npm run test:e2e` recorre registro, compra, recarga, historial, permisos, contacto y cierre de sesión en un navegador real. Definir `BRICK_TEST_URL` con una instancia de pruebas de la tienda que tenga stock en el primer producto. El recorrido crea una cuenta, un pedido y un mensaje. Por defecto utiliza Edge. Para otro Chromium, definir `CHROME_BIN`.
