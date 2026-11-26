@@ -2,7 +2,7 @@
 .seccion-nosotros-hero {
     /* Color de fondo oscuro para integrarse suavemente con los bordes de la foto */
     background-color: #07080a; 
-    background-image: url('../img/nosotros-fondo.jpg');
+    background-image: url('/img/nosotros-fondo.jpg');
     background-repeat: no-repeat;
     background-position: center center;
     

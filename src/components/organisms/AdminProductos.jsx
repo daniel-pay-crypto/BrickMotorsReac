@@ -1,10 +1,11 @@
+import { api } from '../../data/api';
+import { useRecurso } from '../../hooks/useRecurso';
 import { useState } from 'react';
 import Button from '../atoms/Button.jsx';
 import { FormField } from '../molecules/FormField';
 import { SelectField } from '../molecules/SelectField';
 import { TablaDatos } from '../molecules/TablaDatos';
 import { estaVacio } from '../../data/Validaciones.js';
-import { getLegos, addLego, updateLego } from '../../data/legosData';
 
 const columnas = [
   { clave: 'codigo', titulo: 'Código' },
@@ -15,7 +16,7 @@ const columnas = [
   { clave: 'descuento', titulo: 'Descuento %' },
 ];
 
-const categorias = ['Technic', 'Star Wars', 'MOC'];
+
 
 const imagenPorDefecto = '/img/legos.jpg';
 
@@ -43,7 +44,9 @@ const mensajes = {
 };
 
 export function AdminProductos() {
-  const [productos, setProductos] = useState(getLegos());
+  const { datos: productos = [], error, recargar } = useRecurso('productos');
+  const { datos: categorias = [] } = useRecurso('categorias');
+  const [fallo, setFallo] = useState('');
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [editandoId, setEditandoId] = useState(null);
   const [valores, setValores] = useState(valoresIniciales);
@@ -114,7 +117,7 @@ export function AdminProductos() {
     return nuevos;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const nuevos = validar();
     setErrores(nuevos);
@@ -125,24 +128,24 @@ export function AdminProductos() {
         nombre: valores.nombre.trim(),
         precio: Number(valores.precio),
         stock: Number(valores.stock),
-        categoria: valores.categoria,
+        categoriaId: categorias.find(c => c.nombre === valores.categoria)?.id,
         descripcion: valores.descripcion.trim(),
         imagen: valores.imagen.trim() || imagenPorDefecto,
         descuento,
-        oferta: descuento > 0,
       };
-      if (editandoId === null) {
-        addLego(datos);
-      } else {
-        updateLego(editandoId, datos);
-      }
-      setProductos(getLegos());
-      cerrarFormulario();
+      try {
+        setFallo('');
+        const ruta = editandoId === null ? 'productos' : 'productos/' + editandoId;
+        await api(ruta, editandoId === null ? 'POST' : 'PUT', datos);
+        recargar();
+        cerrarFormulario();
+      } catch (e) { setFallo(e.message); }
     }
   };
 
   return (
     <section>
+      {(fallo || error) && <p role="alert">{fallo || error.message}</p>}
       <h2 className="mb-4">Productos</h2>
       <Button className="mb-3" onClick={abrirNuevo}>
         + Nuevo producto
@@ -150,11 +153,13 @@ export function AdminProductos() {
       <TablaDatos
         columnas={columnas}
         filas={productos}
-        renderAcciones={(producto) => (
-          <Button variant="warning" onClick={() => abrirEditar(producto)}>
-            Editar
-          </Button>
-        )}
+        renderAcciones={(producto) => (<>
+          <Button variant="warning" onClick={() => abrirEditar(producto)}>Editar</Button>
+          <Button variant="danger" onClick={async () => {
+            try { await api('productos/' + producto.id, 'DELETE'); setFallo(''); recargar(); }
+            catch (e) { setFallo(e.message); }
+          }}>Eliminar</Button>
+        </>)}
       />
       {mostrarFormulario && (
         <form onSubmit={handleSubmit} noValidate className="border rounded p-3 bg-white">
@@ -204,7 +209,7 @@ export function AdminProductos() {
             name="categoria"
             label="Categoría"
             placeholder="-- Selecciona una categoría (Ej. Technic) --"
-            options={categorias}
+            options={categorias.map(c => c.nombre)}
             value={valores.categoria}
             onChange={handleChange}
             error={errores.categoria}

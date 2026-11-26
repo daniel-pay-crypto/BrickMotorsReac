@@ -1,123 +1,52 @@
-import { useState, useEffect } from 'react';
-import { leerAlmacen, guardarAlmacen } from '../data/almacen.js';
-import { getLegoById, calcularPrecioFinal } from '../data/legosData.js';
+import { useEffect, useState, useRef } from 'react';
+import { api } from '../data/api.js';
 
-const cargarCarrito = () => {
-  const guardado = leerAlmacen('carrito', []);
-  if (!Array.isArray(guardado)) {
-    return [];
-  }
-  return guardado
-    .map((item) => {
-      const lego = getLegoById(item.id);
-      if (!lego || lego.stock < 1) {
-        return null;
-      }
-      return {
-        id: lego.id,
-        nombre: lego.nombre,
-        imagen: lego.imagen,
-        precio: lego.precio,
-        descuento: lego.descuento || 0,
-        stock: lego.stock,
-        cantidad: Math.min(item.cantidad, lego.stock),
-      };
-    })
-    .filter(Boolean);
-};
-
-export function useCarrito() {
-  const [items, setItems] = useState(cargarCarrito);
+export function useCarrito(usuarioId) {
+  const [items, setItems] = useState([]);
   const [abierto, setAbierto] = useState(false);
-
+  const [mensaje, setMensaje] = useState('');
+  const [ocupado, setOcupado] = useState(false);
+  const bloqueo = useRef(false);
+  const version = useRef(0);
   useEffect(() => {
-    guardarAlmacen('carrito', items);
-  }, [items]);
+    let activo = true;
+    const revision = ++version.current;
+    api('carrito').then(filas => {
+      if (activo && revision === version.current) setItems(filas.map(({ producto, cantidad }) => ({ ...producto, cantidad })));
+    }).catch(e => { if (activo) setMensaje(e.message); });
+    return () => { activo = false; };
+  }, [usuarioId]);
 
-  const abrirCarrito = () => setAbierto(true);
-  const cerrarCarrito = () => setAbierto(false);
-
-  const agregar = (lego) => {
-    if (lego.stock < 1) {
-      return;
-    }
-    setItems((actuales) => {
-      const existe = actuales.find((item) => item.id === lego.id);
-      if (!existe) {
-        return [
-          ...actuales,
-          {
-            id: lego.id,
-            nombre: lego.nombre,
-            imagen: lego.imagen,
-            precio: lego.precio,
-            descuento: lego.descuento || 0,
-            stock: lego.stock,
-            cantidad: 1,
-          },
-        ];
+  async function modificar(ruta, metodo, datos) {
+    if (bloqueo.current) return;
+    bloqueo.current = true;
+    const revision = ++version.current;
+    setOcupado(true);
+    setMensaje('');
+    try {
+      const resultado = await api(ruta, metodo, datos);
+      if (revision !== version.current) return;
+      if (ruta === 'carrito/confirmar') {
+        setItems([]);
+        setMensaje('Pedido #' + resultado.id + ' confirmado.');
+      } else {
+        setItems(resultado.map(({ producto, cantidad }) => ({ ...producto, cantidad })));
       }
-      return actuales.map((item) =>
-        item.id === lego.id ? { ...item, cantidad: Math.min(item.cantidad + 1, item.stock) } : item
-      );
-    });
-    setAbierto(true);
-  };
-
-  const cambiarCantidad = (id, cantidad) => {
-    setItems((actuales) =>
-      actuales.map((item) => {
-        if (item.id !== id) {
-          return item;
-        }
-        const nueva = Math.min(Math.max(1, Number(cantidad)), item.stock);
-        return { ...item, cantidad: nueva };
-      })
-    );
-  };
-
-  const aumentar = (id) => {
-    setItems((actuales) =>
-      actuales.map((item) =>
-        item.id === id ? { ...item, cantidad: Math.min(item.cantidad + 1, item.stock) } : item
-      )
-    );
-  };
-
-  const reducir = (id) => {
-    setItems((actuales) =>
-      actuales.map((item) =>
-        item.id === id ? { ...item, cantidad: Math.max(item.cantidad - 1, 1) } : item
-      )
-    );
-  };
-
-  const eliminar = (id) => {
-    setItems((actuales) => actuales.filter((item) => item.id !== id));
-  };
-
-  const vaciar = () => {
-    setItems([]);
-  };
-
-  const totalItems = items.reduce((suma, item) => suma + item.cantidad, 0);
-  const totalPrecio = items.reduce(
-    (suma, item) => suma + calcularPrecioFinal(item.precio, item.descuento) * item.cantidad,
-    0
-  );
-
+    } catch (e) { setMensaje(e.message); }
+    finally { bloqueo.current = false; setOcupado(false); }
+  }
+  const cambiarCantidad = (id, cantidad) => modificar('carrito/' + id, 'PUT', { cantidad: Number(cantidad) });
+  const cantidadDe = id => items.find(item => item.id === id)?.cantidad || 0;
   return {
-    items,
-    abierto,
-    totalItems,
-    totalPrecio,
-    abrirCarrito,
-    cerrarCarrito,
-    agregar,
-    cambiarCantidad,
-    aumentar,
-    reducir,
-    eliminar,
-    vaciar,
+    items, abierto, ocupado, mensaje,
+    totalItems: items.reduce((s, i) => s + i.cantidad, 0),
+    totalPrecio: items.reduce((s, i) => s + i.precioFinal * i.cantidad, 0),
+    abrirCarrito: () => setAbierto(true), cerrarCarrito: () => setAbierto(false),
+    agregar: producto => { setAbierto(true); return cambiarCantidad(producto.id, cantidadDe(producto.id) + 1); },
+    aumentar: id => cambiarCantidad(id, cantidadDe(id) + 1),
+    reducir: id => cambiarCantidad(id, Math.max(1, cantidadDe(id) - 1)),
+    eliminar: id => modificar('carrito/' + id, 'DELETE'),
+    vaciar: () => modificar('carrito', 'DELETE'), cambiarCantidad,
+    confirmar: () => modificar('carrito/confirmar', 'POST'),
   };
 }

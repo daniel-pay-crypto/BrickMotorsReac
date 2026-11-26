@@ -1,3 +1,4 @@
+import { api } from '../../data/api';
 import { useState } from 'react';
 import { Container, Row, Col, Card, Alert } from 'react-bootstrap';
 import Text from '../atoms/Text.jsx';
@@ -31,11 +32,13 @@ export function FormularioContacto() {
     return nuevos;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const nuevos = validar();
     setErrores(nuevos);
     if (Object.keys(nuevos).length === 0) {
+      try { await api('contacto', 'POST', valores); }
+      catch (error) { setErrores({ general: error.message }); return; }
       setEnviado(true);
       setValores(valoresIniciales);
     }
@@ -83,6 +86,7 @@ export function FormularioContacto() {
                 Enviar mensaje
               </Button>
             </form>
+            {errores.general && <Alert variant="danger">{errores.general}</Alert>}
             {enviado && (
               <Alert variant="success" className="mt-3 mb-0">
                 ¡Mensaje enviado con éxito!

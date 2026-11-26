@@ -1,3 +1,4 @@
+import { api } from '../../data/api';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col, Card, Alert } from 'react-bootstrap';
@@ -11,7 +12,6 @@ import {
   esContrasenaValida,
   MENSAJE_NOMBRE_INVALIDO,
 } from '../../data/Validaciones.js';
-import { registrarUsuario } from '../../data/usuariosData';
 
 const valoresIniciales = { nombre: '', correo: '', contrasena: '' };
 
@@ -42,17 +42,14 @@ export function FormularioRegistro() {
     return nuevos;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setExito(false);
     const nuevos = validar();
     setErrores(nuevos);
     if (Object.keys(nuevos).length === 0) {
-      const registrado = registrarUsuario(valores);
-      if (!registrado) {
-        setErrores({ correo: 'Ese correo ya está registrado.' });
-        return;
-      }
+      try { await api('usuarios', 'POST', valores); }
+      catch (error) { setErrores({ general: error.message }); return; }
       setExito(true);
       setValores(valoresIniciales);
     }
@@ -98,6 +95,7 @@ export function FormularioRegistro() {
                 Registrarse
               </Button>
             </form>
+            {errores.general && <Alert variant="danger">{errores.general}</Alert>}
             {exito && (
               <Alert variant="success" className="mt-3 mb-0">
                 ¡Cuenta creada con éxito!

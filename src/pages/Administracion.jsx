@@ -1,5 +1,5 @@
 import { PanelAdmin } from '../components/organisms/PanelAdmin';
 
-export function Administracion({ onCerrarSesion }) {
-  return <PanelAdmin onCerrarSesion={onCerrarSesion} />;
+export function Administracion({ onCerrarSesion, usuario }) {
+  return <PanelAdmin usuario={usuario} onCerrarSesion={onCerrarSesion} />;
 }

@@ -47,7 +47,8 @@ export function Navbar({
           {usuario ? (
             <>
               <span className="saludo-usuario">Hola, {usuario.nombre.split(' ')[0]}</span>
-              {usuario.esAdmin && (
+              <Link to="/pedidos" className="btn-registro">Mis pedidos</Link>
+              {(usuario.esAdmin || usuario.rol === 'VENDEDOR') && (
                 <Link to="/admin" className="btn-registro">Panel Admin</Link>
               )}
               <button className="btn-sesion" onClick={salir}>Cerrar sesión</button>

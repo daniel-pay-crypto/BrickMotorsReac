@@ -1,6 +1,7 @@
+import { useRecurso } from '../hooks/useRecurso';
 import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { calcularPrecioFinal, getLegoById, getLegos } from '../data/legosData';
+import { calcularPrecioFinal } from '../data/precios';
 import './ProductDetail.css';
 
 const dinero = (precio) => `$${Number(precio).toLocaleString('es-CL')}`;
@@ -8,14 +9,15 @@ const dinero = (precio) => `$${Number(precio).toLocaleString('es-CL')}`;
 export default function ProductDetail({ agregarAlCarrito = () => {} }) {
   const { id } = useParams();
   const productoId = Number(id);
-  const producto = Number.isSafeInteger(productoId) && productoId > 0
-    ? getLegoById(productoId)
-    : null;
-
+  const ruta = Number.isSafeInteger(productoId) && productoId > 0 ? 'productos/' + productoId : null;
+  const { datos: producto, error } = useRecurso(ruta);
+  const { datos: categoria = [] } = useRecurso(producto ? 'productos?categoriaId=' + producto.categoriaId : null);
   useEffect(() => {
     window.scrollTo?.(0, 0);
   }, [id]);
 
+  if (ruta && !producto && !error) return <main>Cargando producto…</main>;
+  if (error && error.status !== 404) return <main role="alert">{error.message}</main>;
   if (!producto) {
     return (
       <main className="detalle-producto pagina-sin-producto">
@@ -33,7 +35,7 @@ export default function ProductDetail({ agregarAlCarrito = () => {} }) {
   const precioFinal = calcularPrecioFinal(producto.precio, descuento);
   const sinStock = Number(producto.stock) < 1;
   const pocasUnidades = !sinStock && Number(producto.stock) <= 2;
-  const relacionados = getLegos()
+  const relacionados = categoria
     .filter((otro) => otro.id !== producto.id && otro.categoria === producto.categoria)
     .slice(0, 3);
 

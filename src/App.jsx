@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import { AnuncioSuperior } from './components/organisms/AnuncioSuperior';
 import { Navbar } from './components/organisms/Navbar';
 import { Footer } from './components/organisms/Footer';
@@ -7,6 +7,7 @@ import { RutaAdmin } from './components/organisms/RutaAdmin';
 import { useCarrito } from './hooks/useCarrito';
 import { useSesion } from './hooks/useSesion';
 
+import { Pedidos } from './pages/Pedidos';
 import Home from './pages/Home';
 import { Productos } from './pages/Productos';
 import ProductDetail from './pages/ProductDetail';
@@ -21,8 +22,9 @@ import { Login } from './pages/Login';
 import { Registro } from './pages/Registro';
 
 function App() {
-  const carrito = useCarrito();
   const sesion = useSesion();
+  const carrito = useCarrito(sesion.usuario?.id);
+  const navigate = useNavigate();
 
   return (
     <>
@@ -33,7 +35,11 @@ function App() {
         cantidadCarrito={carrito.totalItems}
         onAbrirCarrito={carrito.abrirCarrito}
       />
+      {sesion.error && <p role="alert">{sesion.error}</p>}
       <CarritoDesplegable
+        mensaje={carrito.mensaje}
+        ocupado={carrito.ocupado}
+        onFinalizarCompra={sesion.usuario ? carrito.confirmar : () => { carrito.cerrarCarrito(); navigate('/login'); }}
         abierto={carrito.abierto}
         items={carrito.items}
         totalItems={carrito.totalItems}
@@ -49,14 +55,15 @@ function App() {
         <Route path="/" element={<Home agregarAlCarrito={carrito.agregar} />} />
         <Route path="/productos" element={<Productos agregarAlCarrito={carrito.agregar} />} />
         <Route path="/products/:id" element={<ProductDetail agregarAlCarrito={carrito.agregar} />} />
+        <Route path="/pedidos" element={sesion.cargando ? <p>Cargando sesión…</p> : sesion.usuario ? <Pedidos usuario={sesion.usuario} /> : <Navigate to="/login" replace />} />
         <Route path="/contacto" element={<Contacto />} />
         <Route path="/cherno" element={<Cherno />} />
         <Route path="/estrella-de-la-muerte" element={<EstrellaMuerte />} />
         <Route
           path="/admin"
           element={
-            <RutaAdmin usuario={sesion.usuario}>
-              <Administracion onCerrarSesion={sesion.cerrarSesion} />
+            sesion.cargando ? <p>Cargando sesión…</p> : <RutaAdmin usuario={sesion.usuario}>
+              <Administracion usuario={sesion.usuario} onCerrarSesion={sesion.cerrarSesion} />
             </RutaAdmin>
           }
         />

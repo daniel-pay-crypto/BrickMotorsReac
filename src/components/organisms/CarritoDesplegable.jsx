@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { calcularPrecioFinal, getLegos } from '../../data/legosData';
+import { calcularPrecioFinal } from '../../data/precios';
 import './CarritoDesplegable.css';
 
 const formatearPrecio = (valor) =>
@@ -21,23 +21,23 @@ export function CarritoDesplegable({
   onEliminar = () => {},
   onVaciar = () => {},
   onFinalizarCompra,
+  mensaje,
+  ocupado = false,
 }) {
   const botonCerrar = useRef(null);
-  const catalogo = new Map(getLegos().map((producto) => [producto.id, producto]));
 
   const productosCarrito = items.map((item) => {
-    const producto = catalogo.get(item.id);
-    const precio = Number(item.precio ?? producto?.precio ?? 0);
-    const descuento = Number(item.descuento ?? producto?.descuento ?? 0);
+    const precio = Number(item.precio ?? 0);
+    const descuento = Number(item.descuento ?? 0);
     const precioFinal = calcularPrecioFinal(precio, descuento);
     const cantidad = Number(item.cantidad) || 1;
 
     return {
       ...item,
-      nombre: item.nombre || producto?.nombre || 'Producto sin nombre',
-      imagen: item.imagen || producto?.imagen || '/img/legos.jpg',
-      descripcion: item.descripcion || producto?.descripcion || 'Sin descripción disponible',
-      stock: Number(item.stock ?? producto?.stock ?? cantidad),
+      nombre: item.nombre || 'Producto sin nombre',
+      imagen: item.imagen || '/img/legos.jpg',
+      descripcion: item.descripcion || 'Sin descripción disponible',
+      stock: Number(item.stock ?? cantidad),
       precio,
       descuento,
       precioFinal,
@@ -165,6 +165,7 @@ export function CarritoDesplegable({
           )}
         </div>
 
+        {mensaje && <p role="status">{mensaje}</p>}
         <footer className="bmcarrito-pie">
           <div className="bmcarrito-total">
             <span>Total</span>
@@ -174,7 +175,7 @@ export function CarritoDesplegable({
             <button
               className="bmcarrito-comprar"
               type="button"
-              disabled={productosCarrito.length === 0}
+              disabled={ocupado || productosCarrito.length === 0}
               onClick={onFinalizarCompra}
             >
               Finalizar compra
@@ -183,7 +184,7 @@ export function CarritoDesplegable({
           <button
             className="bmcarrito-vaciar"
             type="button"
-            disabled={productosCarrito.length === 0}
+            disabled={ocupado || productosCarrito.length === 0}
             onClick={onVaciar}
           >
             Vaciar carrito

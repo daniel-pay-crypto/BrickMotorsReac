@@ -2,10 +2,12 @@ import { useState } from 'react';
 import { Container, Row, Col, Nav } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { AdminProductos } from './AdminProductos';
+import { GestionTienda } from './GestionTienda';
 import { AdminUsuarios } from './AdminUsuarios';
 
-export function PanelAdmin({ onCerrarSesion = () => {} }) {
+export function PanelAdmin({ usuario, onCerrarSesion = () => {} }) {
   const [seccion, setSeccion] = useState('productos');
+  const vendedor = usuario?.rol === 'VENDEDOR';
   const navigate = useNavigate();
 
   const salir = () => {
@@ -25,16 +27,17 @@ export function PanelAdmin({ onCerrarSesion = () => {} }) {
             <Nav.Link onClick={() => setSeccion('productos')} className="text-white">
               📦 Productos
             </Nav.Link>
-            <Nav.Link onClick={() => setSeccion('usuarios')} className="text-white">
+            {!vendedor && <Nav.Link onClick={() => setSeccion('usuarios')} className="text-white">
               👤 Usuarios
-            </Nav.Link>
+            </Nav.Link>}
+            {['categorias', 'pedidos', 'contacto'].map(nombre => <Nav.Link key={nombre} onClick={() => setSeccion(nombre)} className="text-white text-capitalize">{nombre}</Nav.Link>)}
             <Nav.Link onClick={salir} className="text-white">
               🚪 Cerrar sesión
             </Nav.Link>
           </Nav>
         </Col>
         <Col md={10} className="p-5 bg-light">
-          {seccion === 'productos' ? <AdminProductos /> : <AdminUsuarios />}
+          {seccion === 'productos' ? <AdminProductos /> : seccion === 'usuarios' && !vendedor ? <AdminUsuarios /> : <GestionTienda key={seccion} seccion={seccion} />}
         </Col>
       </Row>
     </Container>

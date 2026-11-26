@@ -1,35 +1,25 @@
+import { api } from '../../data/api';
+import { useRecurso } from '../../hooks/useRecurso';
 import { useState } from 'react';
 import Button from '../atoms/Button.jsx';
 import { FormField } from '../molecules/FormField';
 import { SelectField } from '../molecules/SelectField';
 import { TablaDatos } from '../molecules/TablaDatos';
 import { estaVacio, esGmailValido, esNombreValido, MENSAJE_NOMBRE_INVALIDO } from '../../data/Validaciones.js';
-import { getPersonal, addPersonal, updatePersonal } from '../../data/personalData';
-import { getUsuariosRegistrados } from '../../data/usuariosData';
 
 const columnas = [
   { clave: 'nombre', titulo: 'Nombre' },
   { clave: 'correo', titulo: 'Correo' },
-  { clave: 'tipo', titulo: 'Tipo' },
+  { clave: 'rol', titulo: 'Tipo' },
 ];
 
-const tipos = ['Administrador', 'Vendedor', 'Cliente'];
+const tipos = ['ADMIN', 'VENDEDOR', 'CLIENTE'];
 
 const valoresIniciales = { nombre: '', correo: '', tipo: '' };
 
-const cargarUsuarios = () => [
-  ...getPersonal(),
-  ...getUsuariosRegistrados().map((usuario) => ({
-    id: `registro-${usuario.correo}`,
-    nombre: usuario.nombre,
-    correo: usuario.correo,
-    tipo: 'Cliente',
-    registrado: true,
-  })),
-];
-
 export function AdminUsuarios() {
-  const [usuarios, setUsuarios] = useState(cargarUsuarios);
+  const { datos: usuarios = [], error, recargar } = useRecurso('usuarios');
+  const [fallo, setFallo] = useState('');
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [editandoId, setEditandoId] = useState(null);
   const [valores, setValores] = useState(valoresIniciales);
@@ -55,12 +45,12 @@ export function AdminUsuarios() {
 
   const abrirEditar = (usuario) => {
     setEditandoId(usuario.id);
-    setValores({ nombre: usuario.nombre, correo: usuario.correo, tipo: usuario.tipo });
+    setValores({ nombre: usuario.nombre, correo: usuario.correo, tipo: usuario.rol });
     setErrores({});
     setMostrarFormulario(true);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const nuevos = {};
     if (estaVacio(valores.nombre)) {
@@ -76,23 +66,27 @@ export function AdminUsuarios() {
     }
     setErrores(nuevos);
     if (Object.keys(nuevos).length === 0) {
-      const datos = {
-        nombre: valores.nombre.trim(),
-        correo: valores.correo.trim().toLowerCase(),
-        tipo: valores.tipo,
-      };
-      if (editandoId === null) {
-        addPersonal(datos);
-      } else {
-        updatePersonal(editandoId, datos);
-      }
-      setUsuarios(cargarUsuarios());
-      cerrarFormulario();
+      const nombre = valores.nombre.trim();
+      const correo = valores.correo.trim().toLowerCase();
+      const rol = valores.tipo;
+      try {
+        setFallo('');
+        if (editandoId === null) {
+          await api('usuarios/personal', 'POST', {
+            usuario: { nombre, correo, contrasena: valores.contrasena }, rol,
+          });
+        } else {
+          await api('usuarios/' + editandoId, 'PUT', { nombre, correo, rol });
+        }
+        recargar();
+        cerrarFormulario();
+      } catch (e) { setFallo(e.message); }
     }
   };
 
   return (
     <section>
+      {(fallo || error) && <p role="alert">{fallo || error.message}</p>}
       <h2 className="mb-4">Usuarios</h2>
       <Button className="mb-3" onClick={abrirNuevo}>
         + Nuevo usuario
@@ -100,15 +94,13 @@ export function AdminUsuarios() {
       <TablaDatos
         columnas={columnas}
         filas={usuarios}
-        renderAcciones={(usuario) =>
-          usuario.registrado ? (
-            <span className="text-muted">Registro web</span>
-          ) : (
-            <Button variant="warning" onClick={() => abrirEditar(usuario)}>
-              Editar
-            </Button>
-          )
-        }
+        renderAcciones={(usuario) => (<>
+          <Button variant="warning" onClick={() => abrirEditar(usuario)}>Editar</Button>
+          <Button variant="danger" onClick={async () => {
+            try { await api('usuarios/' + usuario.id, 'DELETE'); setFallo(''); recargar(); }
+            catch (e) { setFallo(e.message); }
+          }}>Eliminar</Button>
+        </>)}
       />
       {mostrarFormulario && (
         <form onSubmit={handleSubmit} noValidate className="border rounded p-3 bg-white">
@@ -132,6 +124,7 @@ export function AdminUsuarios() {
             onChange={handleChange}
             error={errores.correo}
           />
+          {editandoId === null && <FormField name="contrasena" id="contrasena" type="password" label="Contraseña inicial" value={valores.contrasena || ''} onChange={handleChange} />}
           <SelectField
             id="tipo"
             name="tipo"

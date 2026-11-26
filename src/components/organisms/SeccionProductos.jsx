@@ -1,11 +1,11 @@
 import { Container, Row, Col } from 'react-bootstrap';
 import TituloSeccion from '../atoms/TituloSeccion';
-import { getLegos } from '../../data/legosData';
+import { useRecurso } from '../../hooks/useRecurso';
 import { TarjetaProducto } from '../molecules/TarjetaProducto';
 import './SeccionProductos.css';
 
 export function SeccionProductos({ onAgregar }) {
-  const listaDeLegos = getLegos();
+  const { datos: listaDeLegos, error } = useRecurso('productos');
 
   return (
     <Container id="productos" className="seccion-productos">
@@ -13,8 +13,11 @@ export function SeccionProductos({ onAgregar }) {
         Productos Destacados
       </TituloSeccion>
 
+      {!listaDeLegos && !error && <p>Cargando catálogo…</p>}
+      {listaDeLegos?.length === 0 && <p>El catálogo está vacío.</p>}
+      {error && <p role="alert">{error.message}</p>}
       <Row className="g-4 mt-1 justify-content-center">
-        {listaDeLegos.map((lego) => (
+        {listaDeLegos?.map((lego) => (
           <Col key={lego.id} xs={12} sm={6} lg={4} xl={3} className="d-flex justify-content-center">
             <TarjetaProducto lego={lego} onAgregar={onAgregar} />
           </Col>

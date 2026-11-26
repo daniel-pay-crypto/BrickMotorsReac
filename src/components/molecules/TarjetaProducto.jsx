@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import Etiqueta from '../atoms/Etiqueta';
-import { calcularPrecioFinal } from '../../data/legosData';
+import { calcularPrecioFinal } from '../../data/precios';
 import './TarjetaProducto.css';
 
 const UNIDADES_POCAS = 2;

@@ -5,11 +5,11 @@ import Text from '../atoms/Text.jsx';
 import Button from '../atoms/Button.jsx';
 import { FormField } from '../molecules/FormField';
 import { estaVacio, esGmailValido } from '../../data/Validaciones.js';
-import { buscarUsuario } from '../../data/usuariosData';
+import { ingresar } from '../../data/api';
 
 const valoresIniciales = { correo: '', contrasena: '' };
 
-export function FormularioLogin({ onIniciarSesion = () => {} }) {
+export function FormularioLogin({ onIniciarSesion = ingresar }) {
   const [valores, setValores] = useState(valoresIniciales);
   const [errores, setErrores] = useState({});
   const [exito, setExito] = useState(false);
@@ -31,22 +31,19 @@ export function FormularioLogin({ onIniciarSesion = () => {} }) {
     return nuevos;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setExito(false);
     setErrorLogin('');
     const nuevos = validar();
     setErrores(nuevos);
     if (Object.keys(nuevos).length === 0) {
-      const usuario = buscarUsuario(valores.correo, valores.contrasena);
-      if (!usuario) {
-        setErrorLogin('Correo o contraseña incorrectos.');
-        return;
-      }
-      onIniciarSesion(usuario);
+      let usuario;
+      try { usuario = await onIniciarSesion(valores); }
+      catch (error) { setErrorLogin(error.message); return; }
       setExito(true);
       setValores(valoresIniciales);
-      navigate(usuario.esAdmin ? '/admin' : '/');
+      navigate(usuario.esAdmin || usuario.rol === 'VENDEDOR' ? '/admin' : '/');
     }
   };
 

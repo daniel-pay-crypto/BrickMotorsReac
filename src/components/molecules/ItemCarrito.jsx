@@ -1,6 +1,6 @@
 import './ItemCarrito.css';
 import { useState } from 'react';
-import { calcularPrecioFinal } from '../../data/legosData';
+import { calcularPrecioFinal } from '../../data/precios';
 
 export function ItemCarrito({
   item,
