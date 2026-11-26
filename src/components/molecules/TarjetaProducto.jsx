@@ -1,69 +1,41 @@
-import { useState } from 'react';
-import { Modal } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import Etiqueta from '../atoms/Etiqueta';
-import './TarjetaProducto.css';
 import { calcularPrecioFinal } from '../../data/legosData';
+import './TarjetaProducto.css';
 
 const UNIDADES_POCAS = 2;
 
 export function TarjetaProducto({ lego, onAgregar = () => {} }) {
-  const [verDetalle, setVerDetalle] = useState(false);
-  const tieneDescuento = lego.descuento > 0;
-  const sinStock = lego.stock < 1;
-  const pocasUnidades = lego.stock > 0 && lego.stock <= UNIDADES_POCAS;
-  const precioFinal = calcularPrecioFinal(lego.precio, lego.descuento).toLocaleString('es-CL');
-
-  const abrirDetalle = () => setVerDetalle(true);
-  const cerrarDetalle = () => setVerDetalle(false);
-
-  const agregarDesdeDetalle = () => {
-    onAgregar(lego);
-    cerrarDetalle();
-  };
+  const tieneDescuento = Number(lego.descuento) > 0;
+  const sinStock = Number(lego.stock) < 1;
+  const pocasUnidades = !sinStock && Number(lego.stock) <= UNIDADES_POCAS;
+  const precioFinal = calcularPrecioFinal(lego.precio, lego.descuento || 0).toLocaleString('es-CL');
+  const rutaDetalle = `/products/${lego.id}`;
 
   return (
-    <div className="tarjeta-producto">
+    <article className="tarjeta-producto">
       {(tieneDescuento || pocasUnidades) && (
         <div className="etiquetas-tarjeta">
           {tieneDescuento && <Etiqueta variante="descuento">-{lego.descuento}%</Etiqueta>}
           {pocasUnidades && <Etiqueta variante="aviso">¡Últimas unidades!</Etiqueta>}
         </div>
       )}
-      <div className="tarjeta-producto__imagen">
-        <img src={lego.imagen} alt={lego.nombre} className="clicable" onClick={abrirDetalle} />
-      </div>
-      <h3 className="clicable" title={lego.nombre} onClick={abrirDetalle}>{lego.nombre}</h3>
-      <button className="btn-ver-detalle" onClick={abrirDetalle}>Ver descripción</button>
-      {tieneDescuento && (
-        <p className="precio-original">${lego.precio.toLocaleString('es-CL')}</p>
-      )}
+
+      <Link to={rutaDetalle} className="tarjeta-producto__enlace">
+        <div className="tarjeta-producto__imagen">
+          <img src={lego.imagen || '/img/legos.jpg'} alt={lego.nombre} loading="lazy" />
+        </div>
+        <h3 title={lego.nombre}>{lego.nombre}</h3>
+      </Link>
+
+      <Link className="btn-ver-detalle" to={rutaDetalle}>Ver detalles del producto</Link>
+
+      {tieneDescuento && <p className="precio-original">${Number(lego.precio).toLocaleString('es-CL')}</p>}
       <p className="precio">${precioFinal}</p>
-      <button className="btn-agregar" onClick={() => onAgregar(lego)} disabled={sinStock}>
+
+      <button className="btn-agregar" type="button" onClick={() => onAgregar(lego)} disabled={sinStock}>
         {sinStock ? 'Sin stock' : 'Agregar al Carrito'}
       </button>
-
-      <Modal show={verDetalle} onHide={cerrarDetalle} centered animation={false} contentClassName="modal-detalle-producto">
-        <Modal.Header closeButton>
-          <Modal.Title>{lego.nombre}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <img src={lego.imagen} alt={`Detalle de ${lego.nombre}`} />
-          <p className="descripcion-detalle">
-            {lego.descripcion || 'Este producto todavía no tiene descripción.'}
-          </p>
-          <p className="precio-detalle">
-            ${precioFinal}
-            {tieneDescuento && <span className="descuento-detalle"> (-{lego.descuento}%)</span>}
-          </p>
-          <p>Stock disponible: {lego.stock}</p>
-        </Modal.Body>
-        <Modal.Footer>
-          <button className="btn-cerrar-detalle" onClick={cerrarDetalle}>Cerrar</button>
-          <button className="btn-agregar btn-agregar-detalle" onClick={agregarDesdeDetalle} disabled={sinStock}>
-            {sinStock ? 'Sin stock' : 'Agregar al Carrito'}
-          </button>
-        </Modal.Footer>
-      </Modal>
-    </div>
+    </article>
   );
 }
